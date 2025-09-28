@@ -12,14 +12,26 @@
 
 #include "permutations.h"
 
+#include <stdlib.h>
+#include <assert.h>
+
+void swap(int *a,int *b)
+{
+  int* number;
+  number=a;
+  a=b;
+  b=number;
+}
+
+
 /***************************************************/
 /* Function: random_num Date:                      */
-/* Authors:                                        */
+/* Authors: Shaofan Xu                             */
 /*                                                 */
 /* Rutine that generates a random number           */
 /* between two given numbers                       */
 /*                                                 */
-/* Input:                                          */
+/* Input:               Q                           */
 /* int inf: lower limit                            */
 /* int sup: upper limit                            */
 /* Output:                                         */
@@ -28,11 +40,12 @@
 int random_num(int inf, int sup)
 {
   /* your code */
+  return inf+(sup-inf+1)*rand()/(RAND_MAX+1.0);
 }
 
 /***************************************************/
 /* Function: generate_perm Date:                   */
-/* Authors:                                        */
+/* Authors: Shaofan Xu                             */
 /*                                                 */
 /* Rutine that generates a random permutation      */
 /*                                                 */
@@ -46,6 +59,21 @@ int random_num(int inf, int sup)
 int* generate_perm(int N)
 {
   /* your code */
+  int *perm=NULL;
+  int i;
+  assert(N>0);
+
+  perm=malloc(N*sizeof(perm[0]));
+  if(perm==NULL) return NULL;
+
+  for(i=0;i<N;i++) perm[i]= i+1;
+
+  for(i=0;i<N;i++)
+  {
+    swap(&perm[i],&perm[random_num(0,i)]);
+  }
+
+  return perm;
 }
 
 /***************************************************/
@@ -64,6 +92,29 @@ int* generate_perm(int N)
 /* NULL en case of error                           */
 /***************************************************/
 int** generate_permutations(int n_perms, int N)
-{
-/* your code */
+{ 
+  /* your code */
+  int **perms=NULL;
+  int i,j;
+  assert(n_perms>0);
+  assert(N>0);
+  
+  
+  perms=malloc(n_perms*sizeof(perms[0]));
+  if(perms==NULL) return NULL;
+
+  for(i=0;i<n_perms;i++)
+  {
+    perms[i]=generate_perm(N);
+    if(perms[i]==NULL)
+    {
+      for(j=0;j<i;j++)
+      {
+        free(perms[j]);
+      }
+      free(perms);
+    }
+  }
+
+  return perms;
 }
