@@ -32,9 +32,10 @@ int InsertSort(int* array, int ip, int iu)
     a = array[i];
     j = i - 1;
 
+    ob++;
     if (j >= iu && array[j] > a)
     {
-      ob++;
+      
       array[j+1] = array[j];
       j--;
     }
@@ -52,7 +53,30 @@ int InsertSort(int* array, int ip, int iu)
 /***************************************************/
 int BubbleSort(int* array, int ip, int iu)
 {
-  /* Your code */
+  int i=iu,j;
+  int ob=0; 
+  int flag=1;
+  int num;
+  assert(array!=NULL);
+  assert(ip>=0);
+  assert(ip<=iu);
+
+  while(flag==1&&i>=ip+1)
+  {
+    flag=0;
+    for(j=ip;j<=i;j++)
+    { 
+      ob++;
+      if(array[j]>array[j+1]){
+        num=array[j];
+        array[j]=array[j+1];
+        array[j+1]=num;
+        flag=1;
+      }
+    }
+    i--;
+  }
+  return ob;
 }
 
 

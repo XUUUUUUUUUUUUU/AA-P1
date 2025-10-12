@@ -97,40 +97,40 @@ short average_sorting_time(pfunc_sort metodo,
 short generate_sorting_times(pfunc_sort method, char* file, int num_min, int num_max, int incr, int n_perms)
 {
   
-  PTIME_AA time = NULL;
+  PTIME_AA *array_time = NULL;
   int i;
-  int n_times = 5;
+  int n_times;
+  int num;
+  short re;
   
   assert(method != NULL);
   assert(file != NULL);
   assert(num_min >0);
   assert(num_min < num_max);
-  assert(num_min <= n_perms);
-  assert(num_max >= n_perms);
-  
-  for(i = 0; num_min+ i*incr <= num_max; i++)
-  {
 
-    /*Malloc PTIME_AA*/
-    time = malloc(1*sizeof(TIME_AA));
-    if (time == NULL)
+  n_times = (num_max -num_min) / incr + 1;
+
+  array_time = malloc(sizeof(PTIME_AA)*n_times);
+  if(array_time == NULL)
+  {
+    return ERR;
+  }
+  
+  for(num = num_min, i=0; num <= num_max; i++, num+= incr)
+  {
+    if (average_sorting_time(method, n_perms,num, array_time[i]) == ERR)
     {
+      free(array_time);
+
       return ERR;
     }
-
-    if(average_sorting_time(method,n_perms,num_min+i*incr, time) == OK)
-    {
-      if (save_time_table(file,time,n_times) == ERR)
-      {
-        free(time);
-        return ERR;
-      }
-    }
-
-    free(time);
   }
 
-  return OK;
+  re = save_time_table(file, array_time, i);
+
+  free(array_time);
+
+  return re;
 
 }
 
@@ -142,18 +142,24 @@ short generate_sorting_times(pfunc_sort method, char* file, int num_min, int num
 short save_time_table(char* file, PTIME_AA ptime, int n_times)
 {
   FILE *pf = NULL;
+  int i;
 
   assert(file != NULL);
   assert(ptime != NULL);
   assert(n_times > 0);
 
-  pf = fopen(file,"a");
+  pf = fopen(file,"w");
   if (pf == NULL)
   {
     return ERR;
   }
 
-  fprintf(pf, "%d %f %f %d %d \n", ptime->N, ptime->time, ptime->average_ob, ptime->max_ob, ptime->min_ob);
+  fprintf(pf, "N  Time  average_ob  max_ob  min_ob \n");
+
+  for (i = 0; i < n_times; i++)
+  {
+    fprintf(pf, "%d %f %f %d %d \n", ptime->N, ptime->time, ptime->average_ob, ptime->max_ob, ptime->min_ob);
+  }
 
   fclose(pf);
 
