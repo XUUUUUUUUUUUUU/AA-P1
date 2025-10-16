@@ -46,23 +46,23 @@ sorting.o : sorting.c sorting.h
 
 exercise1_test:
 	@echo Running exercise1
-	@./exercise1 -limInf 1 -limSup 5 -numN 10
+	@./exercise1 -limInf 1 -limSup 2 -numN 10
 
 exercise2_test:
 	@echo Running exercise2
-	@./exercise2 -size 1 -numP 5
+	@./exercise2 -size 5 -numP 5
 
 exercise3_test:
 	@echo Running exercise3
-	@./exercise3 -size 1 -numP 5
+	@./exercise3 -size 5 -numP 5
 
 exercise4_test:
 	@echo Running exercise4
-	@./exercise4 -size 1
+	@./exercise4 -size 5
 
 exercise5_test:
 	@echo Running exercise5
-	@./exercise5 -num_min 1 -num_max 5 -incr 1 -numP 5 -outputFile exercise5.log
+	@./exercise5 -num_min 10 -num_max 1000 -incr 10 -numP 1000 -outputFile exercise5.log
 
 valgrind_e1_test:
 	@echo Running exercise1 with valgrind
@@ -82,5 +82,5 @@ valgrind_e4_test:
 
 valgrind_e5_test:
 	@echo Running exercise5 with valgrind
-	@valgrind --leak-check=full -s ./exercise5 -num_min 10 -num_max 100 -incr 10 -numP 1000 -outputFile exercise5.log
+	@valgrind --leak-check=full -s ./exercise5 -num_min 10 -num_max 1000 -incr 10 -numP 1000 -outputFile exercise5.log
 

@@ -27,15 +27,15 @@ int InsertSort(int* array, int ip, int iu)
   assert(ip >= 0);
   assert (ip <= iu);
 
-  for (i = ip+1; i< iu; i++)
+  for (i = ip+1; i<=iu; i++)
   {
     a = array[i];
     j = i - 1;
 
-    ob++;
-    if (j >= iu && array[j] > a)
+
+    while (j >= ip && array[j] > a)
     {
-      
+      ob++;
       array[j+1] = array[j];
       j--;
     }

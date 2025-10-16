@@ -59,14 +59,14 @@ short average_sorting_time(pfunc_sort metodo,
 
   for(i=0;i<n_perms;i++)
   { 
-    basic_operation[i]=metodo(permutations[i],0,N);
+    basic_operation[i]=metodo(permutations[i],0,N-1);
     mean_bo+=basic_operation[i];
   }
   end=clock();
   mean_time=(double)(end-start)/n_perms;
 
   /* Order the array of basic operation */
-   metodo(basic_operation,0,n_perms);
+   metodo(basic_operation,0,n_perms-1);
 
   
   /* Asignation of values to ptime */
@@ -98,7 +98,7 @@ short generate_sorting_times(pfunc_sort method, char* file, int num_min, int num
 {
   
   PTIME_AA *array_time = NULL;
-  int i;
+  int i,j;
   int n_times;
   int num;
   short re;
@@ -115,12 +115,30 @@ short generate_sorting_times(pfunc_sort method, char* file, int num_min, int num
   {
     return ERR;
   }
+  for(i=0;i<n_times;i++)
+  {
+    array_time[i]=malloc(sizeof(TIME_AA));
+    if(array_time[i]==NULL)
+    {
+      for(j=0;j<i;j++)
+      {
+        free(array_time[i]);
+      }
+      free(array_time);
+    }
+  }
   
-  for(num = num_min, i=0; num <= num_max; i++, num+= incr)
+  for(num = num_min, i=0; num <= num_max&&i<n_times; i++, num+= incr)
   {
     if (average_sorting_time(method, n_perms,num, array_time[i]) == ERR)
     {
+      for(j=0; j<n_times; j++)
+      {
+        free(array_time[j]);
+      }
+      
       free(array_time);
+
 
       return ERR;
     }
@@ -128,6 +146,10 @@ short generate_sorting_times(pfunc_sort method, char* file, int num_min, int num
 
   re = save_time_table(file, array_time, i);
 
+  for (j = 0; j< n_times; j++)
+  {
+    free(array_time[j]);
+  }
   free(array_time);
 
   return re;
@@ -139,7 +161,7 @@ short generate_sorting_times(pfunc_sort method, char* file, int num_min, int num
 /*                                                 */
 /* Your documentation                              */
 /***************************************************/
-short save_time_table(char* file, PTIME_AA ptime, int n_times)
+short save_time_table(char* file, PTIME_AA* ptime, int n_times)
 {
   FILE *pf = NULL;
   int i;
@@ -158,7 +180,7 @@ short save_time_table(char* file, PTIME_AA ptime, int n_times)
 
   for (i = 0; i < n_times; i++)
   {
-    fprintf(pf, "%d %f %f %d %d \n", ptime->N, ptime->time, ptime->average_ob, ptime->max_ob, ptime->min_ob);
+    fprintf(pf, "%d %f %f %d %d \n", ptime[i]->N, ptime[i]->time, ptime[i]->average_ob, ptime[i]->max_ob, ptime[i]->min_ob);
   }
 
   fclose(pf);

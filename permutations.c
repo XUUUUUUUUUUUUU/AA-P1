@@ -17,10 +17,10 @@
 
 void swap(int *a,int *b)
 {
-  int* number;
-  number=a;
-  a=b;
-  b=number;
+  int number;
+  number=*a;
+  *a=*b;
+  *b=number;
 }
 
 
@@ -40,7 +40,7 @@ void swap(int *a,int *b)
 int random_num(int inf, int sup)
 {
   /* your code */
-  return inf+(sup-inf+1)*rand()/(RAND_MAX+1.0);
+  return inf+(sup-inf+1)*(double)(rand()/((double)RAND_MAX+1.0));
 }
 
 /***************************************************/
@@ -70,7 +70,7 @@ int* generate_perm(int N)
 
   for(i=0;i<N;i++)
   {
-    swap(&perm[i],&perm[random_num(0,i)]);
+    swap(&perm[i],&perm[random_num(i,N-1)]);
   }
 
   return perm;
