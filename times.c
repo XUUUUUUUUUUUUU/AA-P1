@@ -20,30 +20,44 @@
 
 /***************************************************/
 /* Function: average_sorting_time Date:02/10/2025  */
+/* Autor: Shaofan Xu                               */
 /*                                                 */
-/* Your documentation                              */
+/* Functions that calculatate the time, basic      */
+/* basic operation(max,min,mean) used by sorting   */
+/* algorithm                                       */
+/*                                                 */
+/* Input:                                          */
+/* pfunc_sort metodo: sorting function             */
+/* int n_perms: number of permutations.            */
+/* int N: length of permutations                   */
+/* PTIME_AA ptime: structure which store all       */
+/* the time, basic operation used by metodo.       */
+/* Output:                                         */
+/* short: return 1(or OK) when everything is good  */
+/* and 0(or ERR) when there is errors.             */
 /***************************************************/
 short average_sorting_time(pfunc_sort metodo, 
                               int n_perms,
                               int N, 
                               PTIME_AA ptime)
 {
-  /* Precondition */
-  
   int i;
   int** permutations=NULL;
   clock_t start,end;
   double mean_time;
   int mean_ob=0,max_ob,min_ob,ob;
 
+  /*Error comprobation*/
   assert(metodo!=NULL);
   assert(n_perms>0);
   assert(N>0);
   assert(ptime!=NULL);
   
+  /*Generate n_perms permutations of size N and verify that is not NULL*/
   permutations=generate_permutations(n_perms,N);
   if(permutations==NULL) return ERR;
   
+  /* Count the time used to order*/
   start=clock();
 
   for(i=0;i<n_perms;i++)
@@ -58,6 +72,7 @@ short average_sorting_time(pfunc_sort metodo,
     min_ob=min_ob<ob?min_ob:ob;
   }
   end=clock();
+
   mean_time=(double)(end-start)/n_perms;
 
   
@@ -154,7 +169,6 @@ short save_time_table(char* file, PTIME_AA ptime, int n_times)
   fclose(pf);
 
   return OK;
-
 }
 
 

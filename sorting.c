@@ -19,28 +19,30 @@
 int InsertSort(int* array, int ip, int iu)
 {
   
-  int i = 0;
-  int a, j;
+  int i = 0,j;
+  int num;
   int ob = 0;
 
+  /*Error comprobation*/
   assert(array != NULL);
   assert(ip >= 0);
   assert (ip <= iu);
 
+  /*Order the array*/
   for (i = ip+1; i<=iu; i++)
   {
-    a = array[i];
+    num = array[i];
     j = i - 1;
 
 
-    while (j >= ip && array[j] > a)
+    while (j >= ip && array[j] > num)
     {
-      ob++;
+      ob++; 
       array[j+1] = array[j];
       j--;
     }
 
-    array[j+1] = a;
+    array[j+1] = num;
   }
 
   return ob;
@@ -48,8 +50,18 @@ int InsertSort(int* array, int ip, int iu)
 
 
 /***************************************************/
-/* Function: SelectSort    Date:                   */
-/* Your comment                                    */
+/* Function: SelectSort    Date:9/10/25            */
+/* Autor: Shaofan Xu                               */
+/*                                                 */
+/* Functions that sort a given array               */
+/*                                                 */
+/* Input:                                          */
+/* int* array: Pointer to tha array we want to sort*/
+/* int ip: index of first element of array         */
+/* int iu: index of last element of array          */
+/* Output:                                         */
+/* int: number of basic operation does the function*/
+/* executed                                        */
 /***************************************************/
 int BubbleSort(int* array, int ip, int iu)
 {
@@ -57,6 +69,8 @@ int BubbleSort(int* array, int ip, int iu)
   int ob=0; 
   int flag=1;
   int num;
+
+  /*Error comprobation*/
   assert(array!=NULL);
   assert(ip>=0);
   assert(ip<=iu);

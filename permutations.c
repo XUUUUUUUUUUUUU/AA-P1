@@ -25,13 +25,13 @@ void swap(int *a,int *b)
 
 
 /***************************************************/
-/* Function: random_num Date:                      */
+/* Function: random_num Date:28/9/25               */
 /* Authors: Shaofan Xu                             */
 /*                                                 */
 /* Rutine that generates a random number           */
 /* between two given numbers                       */
 /*                                                 */
-/* Input:               Q                           */
+/* Input:                                          */
 /* int inf: lower limit                            */
 /* int sup: upper limit                            */
 /* Output:                                         */
@@ -39,12 +39,12 @@ void swap(int *a,int *b)
 /***************************************************/
 int random_num(int inf, int sup)
 {
-  /* your code */
+  /* Return equiprobable random numbers */
   return inf+(sup-inf+1)*(double)(rand()/((double)RAND_MAX+1.0));
 }
 
 /***************************************************/
-/* Function: generate_perm Date:                   */
+/* Function: generate_perm Date:28/9/25            */
 /* Authors: Shaofan Xu                             */
 /*                                                 */
 /* Rutine that generates a random permutation      */
@@ -58,9 +58,10 @@ int random_num(int inf, int sup)
 /***************************************************/
 int* generate_perm(int N)
 {
-  /* your code */
   int *perm=NULL;
   int i;
+
+  /* Verified that N its not zero or negative number*/
   assert(N>0);
 
   perm=malloc(N*sizeof(perm[0]));
@@ -70,6 +71,7 @@ int* generate_perm(int N)
 
   for(i=0;i<N;i++)
   {
+    /* Switch with the element at random position */
     swap(&perm[i],&perm[random_num(i,N-1)]);
   }
 
@@ -77,8 +79,8 @@ int* generate_perm(int N)
 }
 
 /***************************************************/
-/* Function: generate_permutations Date:           */
-/* Authors:                                        */
+/* Function: generate_permutations Date:28/9/25    */
+/* Authors:Shaofan Xu                              */
 /*                                                 */
 /* Function that generates n_perms random          */
 /* permutations with N elements                    */
@@ -93,18 +95,21 @@ int* generate_perm(int N)
 /***************************************************/
 int** generate_permutations(int n_perms, int N)
 { 
-  /* your code */
+  
   int **perms=NULL;
   int i,j;
+  
+  /* Error comprobation*/
   assert(n_perms>0);
   assert(N>0);
   
-  
+  /*Reserve memory for array*/
   perms=malloc(n_perms*sizeof(perms[0]));
   if(perms==NULL) return NULL;
 
   for(i=0;i<n_perms;i++)
   {
+    /* Generate permutation*/
     perms[i]=generate_perm(N);
     if(perms[i]==NULL)
     {
