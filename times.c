@@ -34,7 +34,7 @@ short average_sorting_time(pfunc_sort metodo,
   int** permutations=NULL;
   clock_t start,end;
   double mean_time;
-  int *basic_operation=NULL,mean_bo=0;
+  int mean_ob=0,max_ob,min_ob,ob;
 
   assert(metodo!=NULL);
   assert(n_perms>0);
@@ -44,41 +44,32 @@ short average_sorting_time(pfunc_sort metodo,
   permutations=generate_permutations(n_perms,N);
   if(permutations==NULL) return ERR;
   
-  basic_operation=malloc(n_perms*sizeof(basic_operation[0]));
-  if(basic_operation==NULL)
-  {
-    for(i=0;i<n_perms;i++)
-    {
-      free(permutations[i]);
-    }
-    free(permutations);
-    return ERR;
-  }
-  
   start=clock();
 
   for(i=0;i<n_perms;i++)
   { 
-    basic_operation[i]=metodo(permutations[i],0,N-1);
-    mean_bo+=basic_operation[i];
+    ob=metodo(permutations[i],0,N-1);
+    mean_ob+=ob;
+    if(i==0)
+    {
+      max_ob=min_ob=ob;
+    }
+    max_ob=max_ob>ob?max_ob:ob;
+    min_ob=min_ob<ob?min_ob:ob;
   }
   end=clock();
   mean_time=(double)(end-start)/n_perms;
-
-  /* Order the array of basic operation */
-   metodo(basic_operation,0,n_perms-1);
 
   
   /* Asignation of values to ptime */
   ptime->n_elems=n_perms;
   ptime->N=N;
   ptime->time=mean_time/CLOCKS_PER_SEC;
-  ptime->average_ob=mean_bo/n_perms;
-  ptime->min_ob=basic_operation[0];
-  ptime->max_ob=basic_operation[n_perms-1];
+  ptime->average_ob=(double)mean_ob/n_perms;
+  ptime->min_ob=min_ob;
+  ptime->max_ob=max_ob;
 
   /* Free all memorys */
-  free(basic_operation);
 
   for(i=0;i<n_perms;i++)
   {
@@ -97,11 +88,11 @@ short average_sorting_time(pfunc_sort metodo,
 short generate_sorting_times(pfunc_sort method, char* file, int num_min, int num_max, int incr, int n_perms)
 {
   
-  PTIME_AA *array_time = NULL;
-  int i,j;
+  PTIME_AA array_time = NULL;
+  int i;
   int n_times;
-  int num;
-  short re;
+  int N;
+  short result;
   
   assert(method != NULL);
   assert(file != NULL);
@@ -110,49 +101,26 @@ short generate_sorting_times(pfunc_sort method, char* file, int num_min, int num
 
   n_times = (num_max -num_min) / incr + 1;
 
-  array_time = malloc(sizeof(PTIME_AA)*n_times);
+  array_time = malloc(sizeof(TIME_AA)*n_times);
   if(array_time == NULL)
   {
     return ERR;
   }
-  for(i=0;i<n_times;i++)
-  {
-    array_time[i]=malloc(sizeof(TIME_AA));
-    if(array_time[i]==NULL)
-    {
-      for(j=0;j<i;j++)
-      {
-        free(array_time[i]);
-      }
-      free(array_time);
-    }
-  }
   
-  for(num = num_min, i=0; num <= num_max&&i<n_times; i++, num+= incr)
+  for(i=0,N = num_min; N <= num_max&&i<n_times; i++, N+= incr)
   {
-    if (average_sorting_time(method, n_perms,num, array_time[i]) == ERR)
+    if (average_sorting_time(method, n_perms,N, &(array_time[i])) == ERR)
     {
-      for(j=0; j<n_times; j++)
-      {
-        free(array_time[j]);
-      }
-      
       free(array_time);
-
-
       return ERR;
     }
   }
 
-  re = save_time_table(file, array_time, i);
+  result = save_time_table(file, array_time, n_times);
 
-  for (j = 0; j< n_times; j++)
-  {
-    free(array_time[j]);
-  }
   free(array_time);
 
-  return re;
+  return result;
 
 }
 
@@ -161,7 +129,7 @@ short generate_sorting_times(pfunc_sort method, char* file, int num_min, int num
 /*                                                 */
 /* Your documentation                              */
 /***************************************************/
-short save_time_table(char* file, PTIME_AA* ptime, int n_times)
+short save_time_table(char* file, PTIME_AA ptime, int n_times)
 {
   FILE *pf = NULL;
   int i;
@@ -180,7 +148,7 @@ short save_time_table(char* file, PTIME_AA* ptime, int n_times)
 
   for (i = 0; i < n_times; i++)
   {
-    fprintf(pf, "%d %f %f %d %d \n", ptime[i]->N, ptime[i]->time, ptime[i]->average_ob, ptime[i]->max_ob, ptime[i]->min_ob);
+    fprintf(pf, "%d %f %f %d %d \n", ptime[i].N, ptime[i].time, ptime[i].average_ob, ptime[i].max_ob, ptime[i].min_ob);
   }
 
   fclose(pf);

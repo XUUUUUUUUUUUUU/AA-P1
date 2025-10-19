@@ -64,7 +64,7 @@ int BubbleSort(int* array, int ip, int iu)
   while(flag==1&&i>=ip+1)
   {
     flag=0;
-    for(j=ip;j<=i;j++)
+    for(j=ip;j<i;j++)
     { 
       ob++;
       if(array[j]>array[j+1]){
