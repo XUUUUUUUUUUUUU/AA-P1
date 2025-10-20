@@ -32,23 +32,23 @@ set ylabel "Obs medio"
 plot 'exercise5.log' using 1:3 with linespoints title 'InsertSort OBs', \
      'exercise6.log' using 1:3 with linespoints title 'BubbleSort OBs'
 
-# End of script
-print "Picture 'comparison_mean_time.png' and 'comparison_mean_ob.png' generated"
-
 #--- Part 3: Compare best case time ---
 set output 'comparison_best_case_time.png'
-set tittle " InsertSort vs. BubbleSort - Best_case time"
+set title " InsertSort vs. BubbleSort - Best_case time"
 set ylabel "Best time"
 
 # Plot using best_case time as y-axis
-plot 'insertSort.log' using 1:2 with linespoints title 'InsertSort BestTimes', \
-     'bubbleSort.log' using 1:2 with linespoints title 'BubbleSort BestTimes'
+plot 'insertsort.log' using 1:2 with linespoints title 'InsertSort BestTimes', \
+     'bubblesort.log' using 1:2 with linespoints title 'BubbleSort BestTimes'
 
 #--- Part 4: Compare worst case time ---
 set output 'comparison_worst_case_time.png'
-set tittle " InsertSort vs. BubbleSort - Worst_case time"
+set title " InsertSort vs. BubbleSort - Worst_case time"
 set ylabel "Best time"
 
 # Plot using best_case time as y-axis
-plot 'insertSort.log' using 1:3 with linespoints title 'InsertSort WorstTimes', \
-     'bubbleSort.log' using 1:3 with linespoints title 'BubbleSort WorstTimes'
+plot 'insertsort.log' using 1:3 with linespoints title 'InsertSort WorstTimes', \
+     'bubblesort.log' using 1:3 with linespoints title 'BubbleSort WorstTimes'
+
+# End of script
+print "Picture 'comparison_mean_time.png','comparison_mean_ob.png','comparison_best_case_time' and 'comparison_worst_case_time' generated"
