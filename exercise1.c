@@ -21,7 +21,7 @@
 int main(int argc, char** argv)
 {
   int i;
-  unsigned int inf, sup, num, j;
+  unsigned int inf=0, sup=0, num=0, j;
 
   srand(time(NULL));
 

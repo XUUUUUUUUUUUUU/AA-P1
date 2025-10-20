@@ -17,7 +17,7 @@
 
 int main(int argc, char** argv)
 {
-  int tamano, i, j, ret;
+  int tamano=0, i, j, ret;
   int* perm = NULL;
 
   srand(time(NULL));

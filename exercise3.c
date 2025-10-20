@@ -20,7 +20,7 @@
 int main(int argc, char** argv)
 {
   int i;
-  unsigned int n_perms, tamanio, j, k;
+  unsigned int n_perms=0, tamanio=0, j, k;
   int** perms = NULL;
 
   srand(time(NULL));

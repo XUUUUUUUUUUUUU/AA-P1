@@ -158,7 +158,7 @@ short run_test(pfunc_sort metodo, char *file_name, int num_min, int num_max, int
 
 int main(int argc, char **argv)
 {
-    int i,num_min, num_max, incr;
+    int i,num_min=0, num_max=0, incr=0;
     char bubbleSort_filename[256], insertSort_filename[256];
 
     srand(time(NULL));

@@ -62,15 +62,15 @@ exercise4_test:
 
 exercise5_test:
 	@echo Running exercise5
-	@./exercise5 -num_min 10 -num_max 1000 -incr 10 -numP 1000 -outputFile exercise5.log
+	@./exercise5 -num_min 10 -num_max 1000 -incr 10 -numP 10000 -outputFile exercise5.log
 
 exercise6_test:
 	@echo Running exercise6
-	@./exercise6 -num_min 10 -num_max 1000 -incr 10 -numP 1000 -outputFile exercise6.log
+	@./exercise6 -num_min 10 -num_max 1000 -incr 10 -numP 10000 -outputFile exercise6.log
 
 best_worst_time_test:
 	@echo Running best_worst_time
-	@./best_worst_time -num_min 10 -num_max 1000 -incr 10 -insertsort_outputFile insertsort.log -bubblesort_outputFile bubblesort.log
+	@./best_worst_time -num_min 10 -num_max 10000 -incr 10 -insertsort_outputFile insertsort.log -bubblesort_outputFile bubblesort.log
 
 valgrind_e1_test:
 	@echo Running exercise1 with valgrind
