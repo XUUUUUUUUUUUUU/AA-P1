@@ -4,14 +4,14 @@
 #-----------------------
 
 CC = gcc -ansi -pedantic
-CFLAGS = -Wall
-EXE = exercise1 exercise2 exercise3 exercise4 exercise5 exercise6
+CFLAGS = -Wall -O3
+EXE = exercise1 exercise2 exercise3 exercise4 exercise5 exercise6 best_worst_time
 
 all : $(EXE)
 
 .PHONY : clean
 clean :
-	rm -f *.o core *.log $(EXE)
+	rm -f *.o core $(EXE)
 
 $(EXE) : % : %.o sorting.o times.o permutations.o
 	@echo "#---------------------------"
@@ -70,7 +70,7 @@ exercise6_test:
 
 best_worst_time_test:
 	@echo Running best_worst_time
-	@./best_worst_time -num_min 10 -num_max 1000 -incr 10 -outputFile insertsort.log bubblesort.log
+	@./best_worst_time -num_min 10 -num_max 1000 -incr 10 -insertsort_outputFile insertsort.log -bubblesort_outputFile bubblesort.log
 
 valgrind_e1_test:
 	@echo Running exercise1 with valgrind

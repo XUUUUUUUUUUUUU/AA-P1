@@ -9,15 +9,19 @@
 /* -num_min: lowest number of table elements      */
 /* -num_max: highest number of table elements     */
 /* -incr: increment\n                             */
-/* -numP: number of permutations to average       */
-/* -outputFile: Output file name                  */
+/* -insertSort_outputFile: Output file name of    */
+/* insertSort                                     */
+/* -bubbleSort_outputFile: Output file name of    */
+/* bubbleSort                                     */
 /* Output: 0 in case of error                     */
 /* -1 otherwise                                   */
 /**************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
+#include <assert.h>
 #include "sorting.h"
 #include "times.h"
 
@@ -59,7 +63,6 @@ short run_test(pfunc_sort metodo, char *file_name, int num_min, int num_max, int
 {
     int i, j, n_times, N;
     int *best_case_arr = NULL, *worst_case_arr = NULL;
-    short ret;
     clock_t start, end;
     double **time_table = NULL;
     FILE *file = NULL;
@@ -96,7 +99,7 @@ short run_test(pfunc_sort metodo, char *file_name, int num_min, int num_max, int
             if (worst_case_arr != NULL)
                 free(worst_case_arr);
             for (j = 0; j < 2; j++)
-                free(time_table[i]);
+                free(time_table[j]);
             free(time_table);
         }
 
@@ -106,12 +109,12 @@ short run_test(pfunc_sort metodo, char *file_name, int num_min, int num_max, int
             free(best_case_arr);
             free(worst_case_arr);
             for (j = 0; j < 2; j++)
-                free(time_table[i]);
+                free(time_table[j]);
             free(time_table);
             return ERR;
         }
         end = clock();
-        time_table[0][i] = (double)((end - start) / CLOCKS_PER_SEC);
+        time_table[0][i] = (double)(end - start) / CLOCKS_PER_SEC;
 
         start = clock();
         if (metodo(worst_case_arr, 0, N - 1) == ERR)
@@ -119,12 +122,12 @@ short run_test(pfunc_sort metodo, char *file_name, int num_min, int num_max, int
             free(best_case_arr);
             free(worst_case_arr);
             for (j = 0; j < 2; j++)
-                free(time_table[i]);
+                free(time_table[j]);
             free(time_table);
             return ERR;
         }
         end = clock();
-        time_table[1][i] = (double)((end - start) / CLOCKS_PER_SEC);
+        time_table[1][i] = (double)(end - start) / CLOCKS_PER_SEC;
 
         free(best_case_arr);
         free(worst_case_arr);
@@ -135,7 +138,7 @@ short run_test(pfunc_sort metodo, char *file_name, int num_min, int num_max, int
     if (file == NULL)
     {
         for (j = 0; j < 2; j++)
-            free(time_table[i]);
+            free(time_table[j]);
         free(time_table);
         return ERR;
     }
@@ -144,10 +147,10 @@ short run_test(pfunc_sort metodo, char *file_name, int num_min, int num_max, int
     /*Print datas*/
     for (i = 0, N = num_min; i < n_times && N <= num_max; i++, N += incr)
     {
-        fprintf(file, "%d %lf %lf", N, time_table[0][i], time_table[1][i]);
+        fprintf(file, "%d %f %f\n", N, time_table[0][i], time_table[1][i]);
     }
     for (j = 0; j < 2; j++)
-        free(time_table[i]);
+        free(time_table[j]);
     free(time_table);
     fclose(file);
     return OK;
@@ -155,13 +158,12 @@ short run_test(pfunc_sort metodo, char *file_name, int num_min, int num_max, int
 
 int main(int argc, char **argv)
 {
-    int i, j, num_min, num_max, incr, n_times, N;
+    int i,num_min, num_max, incr;
     char bubbleSort_filename[256], insertSort_filename[256];
-    short ret;
 
     srand(time(NULL));
 
-    if (argc != 12)
+    if (argc != 11)
     {
         fprintf(stderr, "Error in input parameters:\n\n");
         fprintf(stderr, "%s -num_min <int> -num_max <int> -incr <int>\n", argv[0]);
@@ -170,8 +172,8 @@ int main(int argc, char **argv)
         fprintf(stderr, "-num_min: lowest number of table elements\n");
         fprintf(stderr, "-num_max: highest number of table elements\n");
         fprintf(stderr, "-incr: increment\n");
-        fprintf(stderr, "-insertsort_outputFile: Output file name\n");
-        fprintf(stderr, "-bubblesort_outputFile: Output file name\n");
+        fprintf(stderr, "-insertsort_outputFile: InsertSort Output file name\n");
+        fprintf(stderr, "-bubblesort_outputFile: BubbleSort Output file name\n");
         exit(-1);
     }
 
@@ -208,5 +210,16 @@ int main(int argc, char **argv)
         }
     }
 
+    /*Test the best and worst case of InsertSort*/
+    if(run_test(InsertSort,insertSort_filename,num_min,num_max,incr)==ERR)
+    {
+        return ERR;
+    }
+
+    /*Test the best and worst case of BubbleSort*/
+    if(run_test(BubbleSort,bubbleSort_filename,num_min,num_max,incr)==ERR)
+    {
+        return ERR;
+    }
     return 0;
 }
