@@ -3,9 +3,9 @@
  * Descripcion: Implementation of time measurement functions
  *
  * Fichero: times.c
- * Autor: Carlos Aguirre Maeso
+ * Autor: Shaofan Xu, Alejandro Zheng
  * Version: 1.0
- * Fecha: 16-09-2019
+ * Fecha: 2/10/2025
  *
  */
 

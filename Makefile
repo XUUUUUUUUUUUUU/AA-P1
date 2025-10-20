@@ -5,7 +5,7 @@
 
 CC = gcc -ansi -pedantic
 CFLAGS = -Wall
-EXE = exercise1 exercise2 exercise3 exercise4 exercise5
+EXE = exercise1 exercise2 exercise3 exercise4 exercise5 exercise6
 
 all : $(EXE)
 
@@ -64,6 +64,14 @@ exercise5_test:
 	@echo Running exercise5
 	@./exercise5 -num_min 10 -num_max 1000 -incr 10 -numP 1000 -outputFile exercise5.log
 
+exercise6_test:
+	@echo Running exercise6
+	@./exercise6 -num_min 10 -num_max 1000 -incr 10 -numP 1000 -outputFile exercise6.log
+
+best_worst_time_test:
+	@echo Running best_worst_time
+	@./best_worst_time -num_min 10 -num_max 1000 -incr 10 -outputFile insertsort.log bubblesort.log
+
 valgrind_e1_test:
 	@echo Running exercise1 with valgrind
 	@valgrind --leak-check=full -s ./exercise1 -limInf 1 -limSup 5 -numN 10
@@ -84,3 +92,6 @@ valgrind_e5_test:
 	@echo Running exercise5 with valgrind
 	@valgrind --leak-check=full -s ./exercise5 -num_min 10 -num_max 1000 -incr 10 -numP 1000 -outputFile exercise5.log
 
+valgrind_e6_test:
+	@echo Running exercise5 with valgrind
+	@valgrind --leak-check=full -s ./exercise6 -num_min 10 -num_max 1000 -incr 10 -numP 1000 -outputFile exercise6.log

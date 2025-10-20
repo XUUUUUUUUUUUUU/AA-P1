@@ -3,9 +3,9 @@
  * Descripcion: Implementation of function that generate permutations
  *
  * File: permutations.c
- * Autor: Carlos Aguirre
+ * Autor: Shaofan Xu, Alejandro Zheng
  * Version: 1.1
- * Fecha: 21-09-2019
+ * Fecha: 25-09-2025
  *
  */
 

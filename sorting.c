@@ -3,9 +3,9 @@
  * Descripcion: Implementation of sorting functions
  *
  * Fichero: sorting.c
- * Autor: Carlos Aguirre
+ * Autor: Shaofan Xu, Alejandro Zheng
  * Version: 1.0
- * Fecha: 16-09-2019
+ * Fecha: 2-10-2025
  *
  */
 #include <stdlib.h>

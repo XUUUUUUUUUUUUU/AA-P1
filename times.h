@@ -3,9 +3,9 @@
  * Descripcion: Header file for time measurement functions 
  *
  * Fichero: times.h
- * Autor: Carlos Aguirre.
+ * Autor: Shaofan Xu, Alejandro Zheng
  * Version: 1.1
- * Fecha: 15-09-2019
+ * Fecha: 2/10/2025
  *
  */
 
