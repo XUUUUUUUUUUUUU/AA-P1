@@ -12,10 +12,18 @@
 #include <assert.h>
 #include "sorting.h"
 
-/***************************************************/
-/* Function: InsertSort    Date: 02/10/2025        */
-/* Your comment                                    */
-/***************************************************/
+/**********************************************************/
+/* Function: InsertSort    Date: 16/10/2025               */
+/* Authors: Alejandro Zheng                               */
+/*                                                        */
+/* Function that sorts a given array                      */
+/* Input:                                                 */
+/* int *array: Pointer to the array which have be sorted  */
+/* int ip: index of first element of array                */
+/* int iu: index of last element of array                 */
+/* Output:                                                */
+/* int: number of basic operations that function executed */
+/**********************************************************/
 int InsertSort(int* array, int ip, int iu)
 {
   
