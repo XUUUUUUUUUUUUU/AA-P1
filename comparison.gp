@@ -9,7 +9,7 @@ set title "InsertSort vs. BubbleSort - Tiempo Medio"
 
 # Set label
 set xlabel "Tamaño array(N)"
-set ylabel "Tiempo medio(segundos)"
+set ylabel "Tiempo (segundos)"
 
 # Add grid
 set grid
@@ -34,8 +34,8 @@ plot 'exercise5.log' using 1:3 with linespoints title 'InsertSort OBs', \
 
 #--- Part 3: Compare best case time ---
 set output 'comparison_best_case_time.png'
-set title " InsertSort vs. BubbleSort - Best_case time"
-set ylabel "Best time"
+set title " InsertSort vs. BubbleSort - Best case time"
+set ylabel "Tiempo (segundos)"
 
 # Plot using best_case time as y-axis
 plot 'insertsort.log' using 1:2 with linespoints title 'InsertSort BestTimes', \
@@ -43,12 +43,37 @@ plot 'insertsort.log' using 1:2 with linespoints title 'InsertSort BestTimes', \
 
 #--- Part 4: Compare worst case time ---
 set output 'comparison_worst_case_time.png'
-set title " InsertSort vs. BubbleSort - Worst_case time"
-set ylabel "Best time"
+set title " InsertSort vs. BubbleSort - Worst case time"
+set ylabel "Tiempo (segundos)"
 
-# Plot using best_case time as y-axis
+# Plot using worst case time as y-axis
 plot 'insertsort.log' using 1:3 with linespoints title 'InsertSort WorstTimes', \
      'bubblesort.log' using 1:3 with linespoints title 'BubbleSort WorstTimes'
 
-# End of script
-print "Picture 'comparison_mean_time.png','comparison_mean_ob.png','comparison_best_case_time' and 'comparison_worst_case_time' generated"
+#--- Part 5: Mean Ob of Insert Sort ---
+# Set output filename and title
+set output 'insertsort_mean_ob.png'
+set title "InsertSort - OBs medio"
+set ylabel "Obs medio"
+
+# Plot using average_ob as y-axis
+plot 'exercise5.log' using 1:3 with linespoints title 'InsertSort OBs'
+
+#--- Part 6: Insert Sort: Best and worst time---
+# Set output filename and title
+set output 'insertsort_best_worst_time.png'
+set title "InsertSort - Best and worst time"
+set ylabel "Tiempo (segundos)"
+
+# Plot using time as y-axis
+plot 'insertsort.log' using 1:2 with linespoints title 'InsertSort Best case',\
+     'insertsort.log' using 1:3 with linespoints title 'InsertSort Worst case'
+
+#--- Part 7s: Insert Sort: Mean time---
+# Set output filename and title
+set output 'insertsort_mean_time.png'
+set title "InsertSort - Mean time"
+set ylabel "Tiempo (segundos)"
+
+# Plot using time as y-axis
+plot 'exercise5.log' using 1:2 with linespoints title 'InsertSort Average case'

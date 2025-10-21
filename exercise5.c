@@ -12,8 +12,8 @@
 /* -incr: increment\n                                      */
 /* -numP: number of permutations to average                */
 /* -outputFile: Output file name                           */
-/* Output: 0 in case of error                              */
-/* -1 otherwise                                            */
+/* Output: -1 in case of error                             */
+/* 0 otherwise                                             */
 /***********************************************************/
 
 #include <stdlib.h>

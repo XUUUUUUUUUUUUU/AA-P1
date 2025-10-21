@@ -36,16 +36,14 @@
 /* short: return 1(or OK) when everything is good  */
 /* and 0(or ERR) when there is errors.             */
 /***************************************************/
-short average_sorting_time(pfunc_sort metodo, 
-                              int n_perms,
-                              int N, 
-                              PTIME_AA ptime)
+short average_sorting_time(pfunc_sort metodo, int n_perms,int N, PTIME_AA ptime)
 {
   int i;
   int** permutations=NULL;
   clock_t start,end;
   double mean_time;
-  int mean_ob=0,max_ob,min_ob,ob;
+  long mean_ob=0;
+  int max_ob,min_ob,ob;
 
   /*Error comprobation*/
   assert(metodo!=NULL);
@@ -80,7 +78,7 @@ short average_sorting_time(pfunc_sort metodo,
   ptime->n_elems=n_perms;
   ptime->N=N;
   ptime->time=mean_time/CLOCKS_PER_SEC;
-  ptime->average_ob=(double)mean_ob/n_perms;
+  ptime->average_ob=(double)(mean_ob/n_perms);
   ptime->min_ob=min_ob;
   ptime->max_ob=max_ob;
 
@@ -100,7 +98,7 @@ short average_sorting_time(pfunc_sort metodo,
 /*                                                 */
 /* Your documentation                              */
 /***************************************************/
-short generate_sorting_times(pfunc_sort method, char* file, int num_min, int num_max, int incr, int n_perms)
+short  generate_sorting_times(pfunc_sort method, char* file, int num_min, int num_max, int incr, int n_perms)
 {
   
   PTIME_AA array_time = NULL;

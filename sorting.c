@@ -50,7 +50,7 @@ int InsertSort(int* array, int ip, int iu)
 
 
 /***************************************************/
-/* Function: SelectSort    Date:9/10/25            */
+/* Function: BubbleSort    Date:9/10/25            */
 /* Autor: Shaofan Xu                               */
 /*                                                 */
 /* Functions that sort a given array               */
