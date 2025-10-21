@@ -93,12 +93,25 @@ short average_sorting_time(pfunc_sort metodo, int n_perms,int N, PTIME_AA ptime)
     return OK;
 }
 
-/***************************************************/
-/* Function: generate_sorting_times Date:          */
-/*                                                 */
-/* Your documentation                              */
-/***************************************************/
-short  generate_sorting_times(pfunc_sort method, char* file, int num_min, int num_max, int incr, int n_perms)
+/*********************************************************************/
+/* Function: generate_sorting_times Date:16/10/2025                  */
+/* Author: Alejandro Zheng                                           */
+/*                                                                   */
+/* Function that write a average of sorting time,                    */
+/* min,max and average of OB for one sorting algoritm                */
+/* in each scale of number permutations                              */
+/*                                                                   */
+/* Input:                                                            */
+/* pfunc_sort method: sorting function                               */
+/* char* file: file where write the measurements                     */
+/* int num_min: minimum scale of permutation to measure              */
+/* int num_max: maximum scale of permutation to measure              */
+/* int incr: index to grow scale of permutation in each interaction  */
+/* int n_perms: number of permutations                               */
+/* Output:                                                           */
+/* short: index to indicate if the program have runned successfully  */
+/*********************************************************************/
+short generate_sorting_times(pfunc_sort method, char* file, int num_min, int num_max, int incr, int n_perms)
 {
   
   PTIME_AA array_time = NULL;
@@ -137,11 +150,20 @@ short  generate_sorting_times(pfunc_sort method, char* file, int num_min, int nu
 
 }
 
-/***************************************************/
-/* Function: save_time_table Date:                 */
-/*                                                 */
-/* Your documentation                              */
-/***************************************************/
+/********************************************************************/
+/* Function: save_time_table Date: 16/10/2025                       */
+/* Authors: Alejandro Zheng                                         */
+/*                                                                  */
+/* Function to write the measurement in a file                      */
+/*                                                                  */
+/* Input:                                                           */
+/* char* file: the file to write measurement                        */
+/* PTIME_AA ptime: structure which store all                        */
+/* the time, basic operation used by metodo.                        */
+/* int n_times: number of measurement took                          */
+/* Output:                                                          */  
+/* short: index to indicate if the program have runned successfully */
+/********************************************************************/
 short save_time_table(char* file, PTIME_AA ptime, int n_times)
 {
   FILE *pf = NULL;
