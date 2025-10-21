@@ -30,8 +30,8 @@ int main(int argc, char** argv)
     return 0;
   }
   printf("Practice number 1, section 4\n");
-  printf("Done by: your names\n");
-  printf("Group: Your group\n");
+  printf("Done by: Shaofan Xu y Alejandro Zheng\n");
+  printf("Grupo: 120/127\n");
 
   /* check command line */
   for(i = 1; i < argc; i++) {
