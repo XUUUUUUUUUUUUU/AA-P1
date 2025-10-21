@@ -70,7 +70,7 @@ exercise6_test:
 
 best_worst_time_test:
 	@echo Running best_worst_time
-	@./best_worst_time -num_min 10 -num_max 10000 -incr 10 -insertsort_outputFile insertsort.log -bubblesort_outputFile bubblesort.log
+	@./best_worst_time -num_min 10 -num_max 100000 -incr 10 -insertsort_outputFile insertsort.log -bubblesort_outputFile bubblesort.log
 
 valgrind_e1_test:
 	@echo Running exercise1 with valgrind
