@@ -15,6 +15,18 @@
 #include <stdlib.h>
 #include <assert.h>
 
+/***************************************************/
+/* Function: swap       Date:28/9/25               */
+/* Authors: Shaofan Xu                             */
+/*                                                 */
+/* Rutine that swap two number                     */
+/*                                                 */
+/* Input:                                          */
+/* int *a: Pointer to number to swap               */
+/* int *b: Pointer to number to swap               */
+/* Output:                                         */
+/* NONE                                            */
+/***************************************************/
 void swap(int *a,int *b)
 {
   int number;

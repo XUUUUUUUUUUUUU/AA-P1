@@ -3,7 +3,7 @@
  * Descripcion: Header for functions for permutations generation
  *
  * Fichero: permutations.h
- * Autor: Shaofan Xu
+ * Autor: Shaofan Xu, Alejandro Zheng
  * Version: 1.1
  * Fecha: 28-09-2025
  *

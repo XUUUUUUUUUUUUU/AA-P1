@@ -111,7 +111,7 @@ short run_test(pfunc_sort metodo, char *file_name, int num_min, int num_max, int
 
     n_times = (num_max - num_min) / incr + 1;
 
-    /*Allocate memory for array which store best time and worst time of InsertSort and BubbleSort*/
+    /*Allocate memory for array which store best time and worst time sorting algorithm*/
     time_table = malloc(sizeof(time_table[0]) * 2);
     if (time_table == NULL)
         return ERR;
