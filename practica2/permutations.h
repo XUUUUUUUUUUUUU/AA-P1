@@ -22,5 +22,5 @@
 int random_num(int inf, int sup);
 int* generate_perm(int N);
 int** generate_permutations(int n_perms, int N);
-
+void swap(int *a,int *b);
 #endif
