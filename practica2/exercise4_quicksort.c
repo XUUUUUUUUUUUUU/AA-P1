@@ -1,8 +1,8 @@
 /**************************************************/
-/* Programa: ejercise4       Date:                */
+/* Programa: ejercise4_quicksort    Date:30/10/25 */
 /* Authors:                                       */
 /*                                                */
-/* Program that checks InsertSort                 */
+/* Program that checks Quicksort                  */
 /*                                                */
 /* Input: Command Line                            */
 /* -size: number of elements of each permutation  */
@@ -49,10 +49,10 @@ int main(int argc, char** argv)
     exit(-1);
   }
 
-  ret =InsertSort(perm, 0, tamano-1);
+  ret =quicksort(perm, 0, tamano-1);
 
   if (ret == ERR) {
-    printf("Error: Error in BubbleSort\n");
+    printf("Error: Error in quick_sort\n");
     free(perm);
     exit(-1);
   }

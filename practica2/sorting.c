@@ -11,6 +11,9 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "sorting.h"
+#include "permutations.h"
+
+int merge(int* tabla, int ip, int iu, int imedio);
 
 /**********************************************************/
 /* Function: InsertSort    Date: 16/10/2025               */
@@ -103,7 +106,7 @@ int BubbleSort(int* array, int ip, int iu)
 
 
 /**********************************************************/
-/* Function: mergesort     Date: 23/10/2025               */
+/* Function: mergesort     Date: 30/10/2025               */
 /* Authors: Alejandro Zheng                               */
 /*                                                        */
 /* Function that sorts a given array using mergesort      */
@@ -117,34 +120,31 @@ int BubbleSort(int* array, int ip, int iu)
 int mergesort(int* tabla, int ip, int iu)
 {
   int imedio = 0;
-  int ob1,ob2,ob3;
+  int ob;
   
   /*asserting conditions*/
   assert(tabla != NULL);
-  assert(ip < iu);
+  assert(ip <= iu);
 
   /*table with one element*/
   if (ip == iu) return OK;
-  
+
+
   /*calculate the middle*/
-  imedio = (ip-iu) / 2;
+  imedio = (iu + ip) / 2;
   
   /*dividing the table*/
-  ob1 = mergesort(tabla, ip, imedio);
-  ob2 = mergesort(tabla, imedio + 1, iu);
+  ob = mergesort(tabla, ip, imedio);
+  ob += mergesort(tabla, imedio + 1, iu);
 
   /*combine the tabl*/
-  ob3 = merge(tabla, ip, iu, imedio);
-
-  assert(ob1 != -1);
-  assert(ob2 != -1);
-  assert(ob3 != -1);
+  ob += merge(tabla, ip, iu, imedio);
   
-  return ob1+ob2+ob3;
+  return ob;
 }
 
 /**************************************************************/
-/* Function: merge     Date: 23/10/2025                       */
+/* Function: merge     Date: 30/10/2025                       */
 /* Authors: Alejandro Zheng                                   */
 /*                                                            */
 /* Complement function for merge sorts that combines elements */
@@ -162,13 +162,13 @@ int merge(int* tabla, int ip, int iu, int imedio)
   int* aux_table = NULL;
   int size;
   int i,j,k;
-  int ob;
+  int ob = 0;
 
   /*asserting contidions*/
   assert(tabla != NULL);
-  assert(ip < iu);
-  assert(ip < imedio);
-  assert(iu > imedio);
+  assert(ip <= iu);
+  assert(ip <= imedio);
+  assert(iu >= imedio);
 
   /*Calculate the size of table*/
   size = (iu - ip) + 1; 
@@ -177,12 +177,12 @@ int merge(int* tabla, int ip, int iu, int imedio)
   aux_table = malloc(sizeof(int)*size);
   if(aux_table == NULL)
   {
-    return -1;
+    return ERR;
   }
   
   i = ip;
   j = imedio + 1;
-  k = ip;
+  k = 0;
   
   /*process of combining*/
   while( i <= imedio && j <= iu)
@@ -209,7 +209,6 @@ int merge(int* tabla, int ip, int iu, int imedio)
     for(;j <= iu;j++,k++)
     {
       aux_table[k] = tabla[j];
-      ob++;
     }
   }
   
@@ -219,7 +218,6 @@ int merge(int* tabla, int ip, int iu, int imedio)
     for(;i <= imedio;i++,k++)
     {
       aux_table[k] = tabla[i];
-      ob++;
     }
   }
   
@@ -261,6 +259,32 @@ int median(int *tabla, int ip, int iu,int *pos)
   return OK;
 }
 
+int median_avg(int *tabla, int ip, int iu, int *pos)
+{
+  assert(tabla!=NULL);
+  assert(ip>=0);
+  assert(ip<=iu);
+  assert(pos!=NULL);
+
+  *pos=(ip+iu)/2;
+  return 1;
+}
+
+int median_stat(int *tabla, int ip, int iu, int *pos)
+{
+  int mid,obs=0;
+  assert(tabla!=NULL);
+  assert(ip>=0);
+  assert(ip<=iu);
+  assert(pos!=NULL);
+
+  mid=(ip+iu)/2;
+  if(tabla[ip]<=tabla[mid])
+  {
+    if(tabla[mid]<=tabla[iu])return *pos=mid;
+  }
+  return obs;
+}
 /**********************************************************/
 /* Function: partition    Date: 23/10/2025                */
 /* Authors: Shaofan Xu.                                   */
@@ -288,7 +312,7 @@ int partition(int* tabla, int ip, int iu,int *pos)
   if(median(tabla,ip,iu,pos)==ERR)return ERR;
   element=tabla[*pos];
 
-  swap(tabla[ip],tabla[*pos]);
+  swap(&tabla[ip],&tabla[*pos]);
   *pos=ip;
 
   for(i=ip+1;i<=iu;i++)
@@ -296,11 +320,11 @@ int partition(int* tabla, int ip, int iu,int *pos)
     if(tabla[i]<element)
     {
       obs++;
-      *pos++;
-      swap(tabla[i],tabla[*pos]);
+      (*pos)++;
+      swap(&tabla[i],&tabla[*pos]);
     }
   }
-  swap(tabla[ip],tabla[*pos]);
+  swap(&tabla[ip],&tabla[*pos]);
   return obs;
 }
 
@@ -320,8 +344,7 @@ int partition(int* tabla, int ip, int iu,int *pos)
 /**********************************************************/
 int quicksort(int* tabla, int ip, int iu)
 {
-  int mid=0;
-  int *position=NULL;
+  int position=0,obs=0;
   assert(tabla!=NULL);
   assert(ip>=0);
   assert(ip<=iu);
@@ -329,16 +352,9 @@ int quicksort(int* tabla, int ip, int iu)
   /*Base case*/
   if(ip==iu)return 0;
   else{
-    position=malloc(sizeof(position[0]));
-    if(position==NULL) return ERR;
-
-    if((mid=partition(tabla,ip,iu,position))==ERR)
-    {
-      free(position);
-      return ERR;
-    }
-    if(ip<mid-1)quicksort(tabla,ip,iu);
-    if(mid+1<iu)quicksort(tabla,ip,iu);
+    if((obs=partition(tabla,ip,iu,&position))==ERR) return ERR;
+    if(ip<position-1)obs+=quicksort(tabla,ip,position-1);
+    if(position+1<iu)obs+=quicksort(tabla,position+1,iu);
   }
-  return OK;
+  return obs;
 }

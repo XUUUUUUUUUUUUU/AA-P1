@@ -5,7 +5,7 @@
 
 CC = gcc -ansi -pedantic
 CFLAGS = -Wall -O3
-EXE = exercise4 exercise5 
+EXE = exercise4_mergesort exercise4_quicksort exercise5_mergesort exercise5_quicksort
 
 all : $(EXE)
 
@@ -44,23 +44,35 @@ times.o : times.c times.h
 	@echo "# Has changed $<"
 	$(CC) $(CFLAGS) -c $<
 
-exercise4_test:
-	@echo Running exercise4
-	@./exercise4 -size 5
+exercise4_mergesort_test:
+	@echo Running exercise4_mergesort
+	@./exercise4_mergesort -size 5
 
-exercise5_test:
-	@echo Running exercise5
-	@./exercise5 -num_min 10 -num_max 10000 -incr 10 -numP 10 -outputFile exercise5.log
+exercise4_quicksort_test:
+	@echo Running exercise4_quicksort
+	@./exercise4_quicksort -size 5
 
-valgrind_e4_test:
-	@echo Running exercise4 with valgrind
-	@valgrind --leak-check=full -s ./exercise4 -size 1
+exercise5_mergesort_test:
+	@echo Running exercise5_mergesort
+	@./exercise5 -num_min 10 -num_max 10000 -incr 10 -numP 10 -outputFile exercise5_mergesort.log
 
-valgrind_e5_test:
-	@echo Running exercise5 with valgrind
-	@valgrind --leak-check=full -s ./exercise5 -num_min 10 -num_max 100 -incr 10 -numP 1000 -outputFile exercise5.log
+exercise5_quicksort_test:
+	@echo Running exercise5_quicksort
+	@./exercise5_quicksort -num_min 10 -num_max 10000 -incr 10 -numP 10 -outputFile exercise5_quicksort.log
 
-valgrind_e6_test:
-	@echo Running exercise5 with valgrind
-	@valgrind --leak-check=full -s ./exercise6 -num_min 10 -num_max 100 -incr 10 -numP 1000 -outputFile exercise6.log
+valgrind_e4_mergesort:
+	@echo Running exercise4_mergesort with valgrind
+	@valgrind --leak-check=full -s ./exercise4_mergesort -size 10
+
+valgrind_e4_quicksort:
+	@echo Running exercise4_quicksort with valgrind
+	@valgrind --leak-check=full -s ./exercise4_quicksort -size 5
+
+valgrind_e5_mergesort:
+	@echo Running exercise5_mergesort with valgrind
+	@valgrind --leak-check=full -s ./exercise5_mergesort -num_min 10 -num_max 100 -incr 10 -numP 1000 -outputFile exercise5_mergesort.log
+
+valgrind_e5_quicksort:
+	@echo Running exercise5_quicksort with valgrind
+	@valgrind --leak-check=full -s ./exercise5_quicksort -num_min 10 -num_max 100 -incr 10 -numP 1000 -outputFile exercise5_quicksort.log
 
