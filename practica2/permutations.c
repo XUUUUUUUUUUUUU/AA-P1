@@ -70,7 +70,7 @@ int random_num(int inf, int sup)
 /***************************************************/
 int* generate_perm(int N)
 {
-  int *perm=NULL;
+  int *perm;
   int i;
 
   /* Verified that N its not zero or negative number*/
@@ -108,7 +108,7 @@ int* generate_perm(int N)
 int** generate_permutations(int n_perms, int N)
 { 
   
-  int **perms=NULL;
+  int **perms;
   int i,j;
   
   /* Error comprobation*/

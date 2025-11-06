@@ -54,11 +54,11 @@ exercise4_quicksort_test:
 
 exercise5_mergesort_test:
 	@echo Running exercise5_mergesort
-	@./exercise5 -num_min 10 -num_max 10000 -incr 10 -numP 10 -outputFile exercise5_mergesort.log
+	@./exercise5_mergesort -num_min 10 -num_max 10000 -incr 10 -numP 10 -outputFile exercise5_mergesort.log
 
 exercise5_quicksort_test:
 	@echo Running exercise5_quicksort
-	@./exercise5_quicksort -num_min 10 -num_max 10000 -incr 10 -numP 10 -outputFile exercise5_quicksort.log
+	@./exercise5_quicksort -num_min 10 -num_max 10000 -incr 10 -numP 10 -outputFile exercise5_quicksort_median_avg.log
 
 valgrind_e4_mergesort:
 	@echo Running exercise4_mergesort with valgrind
@@ -66,7 +66,7 @@ valgrind_e4_mergesort:
 
 valgrind_e4_quicksort:
 	@echo Running exercise4_quicksort with valgrind
-	@valgrind --leak-check=full -s ./exercise4_quicksort -size 5
+	@valgrind --leak-check=full -s ./exercise4_quicksort -size 10
 
 valgrind_e5_mergesort:
 	@echo Running exercise5_mergesort with valgrind

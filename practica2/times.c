@@ -61,6 +61,15 @@ short average_sorting_time(pfunc_sort metodo, int n_perms,int N, PTIME_AA ptime)
   for(i=0;i<n_perms;i++)
   { 
     ob=metodo(permutations[i],0,N-1);
+    if(ob==ERR)
+    {
+        for(i=0;i<n_perms;i++)
+        {
+          free(permutations[i]);
+          }
+          free(permutations);
+          return ERR;
+    }
     mean_ob+=ob;
     if(i==0)
     {

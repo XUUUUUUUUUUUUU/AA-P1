@@ -120,7 +120,7 @@ int BubbleSort(int* array, int ip, int iu)
 int mergesort(int* tabla, int ip, int iu)
 {
   int imedio = 0;
-  int ob;
+  int ob1,ob2,ob3, ob_total;
   
   /*asserting conditions*/
   assert(tabla != NULL);
@@ -134,13 +134,28 @@ int mergesort(int* tabla, int ip, int iu)
   imedio = (iu + ip) / 2;
   
   /*dividing the table*/
-  ob = mergesort(tabla, ip, imedio);
-  ob += mergesort(tabla, imedio + 1, iu);
+  ob1 = mergesort(tabla, ip, imedio);
+  if(ob1 == ERR)
+  {
+    return ERR;
+  }
+  
+  ob2 = mergesort(tabla, imedio + 1, iu);
+  if (ob2 == ERR)
+  {
+    return ERR;
+  }
 
   /*combine the tabl*/
-  ob += merge(tabla, ip, iu, imedio);
-  
-  return ob;
+  ob3 = merge(tabla, ip, iu, imedio);
+  if(ob3 == ERR)
+  {
+    return ERR;
+  }
+
+  ob_total = ob1 + ob2 + ob3;
+
+  return ob_total; 
 }
 
 /**************************************************************/
@@ -270,21 +285,30 @@ int median_avg(int *tabla, int ip, int iu, int *pos)
   return 1;
 }
 
+#include <assert.h>
+
 int median_stat(int *tabla, int ip, int iu, int *pos)
 {
-  int mid,obs=0;
-  assert(tabla!=NULL);
-  assert(ip>=0);
-  assert(ip<=iu);
-  assert(pos!=NULL);
+    int mid = (ip + iu) / 2;
+    int a = tabla[ip];
+    int b = tabla[mid];
+    int c = tabla[iu];
 
-  mid=(ip+iu)/2;
-  if(tabla[ip]<=tabla[mid])
-  {
-    if(tabla[mid]<=tabla[iu])return *pos=mid;
-  }
-  return obs;
+    assert(tabla != NULL);
+    assert(pos != NULL);
+    assert(ip >= 0);
+    assert(ip <= iu);
+
+    if ((a <= b && b <= c) || (c <= b && b <= a))
+        *pos = mid;
+    else if ((b <= a && a <= c) || (c <= a && a <= b))
+        *pos = ip;
+    else
+        *pos = iu;
+
+    return *pos;
 }
+
 /**********************************************************/
 /* Function: partition    Date: 23/10/2025                */
 /* Authors: Shaofan Xu.                                   */
