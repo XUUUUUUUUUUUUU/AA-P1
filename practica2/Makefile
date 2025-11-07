@@ -5,7 +5,7 @@
 
 CC = gcc -ansi -pedantic
 CFLAGS = -Wall -O3
-EXE = exercise4_mergesort exercise4_quicksort exercise5_mergesort exercise5_quicksort
+EXE = exercise4_mergesort exercise4_quicksort exercise5_mergesort exercise5_quicksort bw_mergesort
 
 all : $(EXE)
 
@@ -54,7 +54,7 @@ exercise4_quicksort_test:
 
 exercise5_mergesort_test:
 	@echo Running exercise5_mergesort
-	@./exercise5_mergesort -num_min 10 -num_max 10000 -incr 10 -numP 10 -outputFile exercise5_mergesort.log
+	@./exercise5_mergesort -num_min 10 -num_max 10000 -incr 10 -numP 10 -outputFile exercise5_mergesort_median_avg.log
 
 exercise5_quicksort_test:
 	@echo Running exercise5_quicksort
@@ -76,3 +76,10 @@ valgrind_e5_quicksort:
 	@echo Running exercise5_quicksort with valgrind
 	@valgrind --leak-check=full -s ./exercise5_quicksort -num_min 10 -num_max 100 -incr 10 -numP 1000 -outputFile exercise5_quicksort.log
 
+exercise6_mergesort:
+	@echo Running bw_mergesort
+	@./bw_mergesort -num_min 10 -num_max 10000 -incr 10 -numP 10 -outputFile bw_mergesort.log
+
+valgrind_e6_mergesort:
+	@echo Running bw_mergesort with valgrind
+	@valgrind --leak-check=full -s ./bw_mergesort -num_min 10 -num_max 100 -incr 10 -numP 1000 -outputFile bw_mergesort.log
