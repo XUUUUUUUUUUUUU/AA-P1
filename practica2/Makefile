@@ -3,8 +3,8 @@
 # It is assumed that the name of the source files is exercise1.c, exercise2.c,...,exercise.h
 #-----------------------
 
-CC = gcc -ansi -pedantic
-CFLAGS = -Wall -O3
+CC = gcc -ansi -pedantic 
+CFLAGS = -Wall -O3 
 EXE = exercise4_mergesort exercise4_quicksort exercise5_mergesort exercise5_quicksort bw_mergesort
 
 all : $(EXE)
@@ -58,7 +58,7 @@ exercise5_mergesort_test:
 
 exercise5_quicksort_test:
 	@echo Running exercise5_quicksort
-	@./exercise5_quicksort -num_min 10 -num_max 10000 -incr 10 -numP 10 -outputFile exercise5_quicksort_median_stat.log
+	@./exercise5_quicksort -num_min 10 -num_max 100000 -incr 10 -numP 10 -outputFile exercise5_quicksort.log
 
 valgrind_e4_mergesort:
 	@echo Running exercise4_mergesort with valgrind

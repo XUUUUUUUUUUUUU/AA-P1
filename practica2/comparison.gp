@@ -2,27 +2,29 @@
 
 # Set output png_filename, size 
 set terminal pngcairo size 800,600 font "Arial,10"
-set output 'merges
-ort_caso_medio.png'
 
-#  Set title
+
+set output 'mergesort_caso_medio.png'
 set title "MergeSort - Caso Medio"
-
-# Set label
 set xlabel "Tamaño array(N)"
 set ylabel "OBs"
 
-# Add grid
 set grid
-
-# Set location of legend
 set key top left
 
 # Plot using obs as y axis
 plot 'exercise5_mergesort.log' using 1:2 with linespoints title 'MergeSort'
 
-set output 'quicksort_caso_medio.png'
+# Mean case using the first element of array as pivote 
+f(x)=a*x*log(x)
+
+set output 'quicksort_first_caso_medio.png'
+set title "QuickSort(First) - Caso Medio"
+
+
 # Plot using obs as y axis
-plot 'exercise5_mergesort.log' using 1:2 with linespoints title 'QuickSort'
+fit f(x) 'exercise5_quicksort.log' using 1:3 via a 
+plot 'exercise5_quicksort.log' using 1:3 with linespoints title 'QuickSort', \
+    f(x) with lines lw 2 title sprintf("a*n*log(n):Adjust is (a=%.2e)", a)
 
 #2.Compare diferent versions of QuickSort

@@ -348,7 +348,7 @@ int partition(int* tabla, int ip, int iu,int *pos)
   assert(ip<=iu);
   assert(pos!=NULL);
   
-  if(median_stat(tabla,ip,iu,pos)==ERR)return ERR;
+  if(median(tabla,ip,iu,pos)==ERR)return ERR;
   element=tabla[*pos];
 
   swap(&tabla[ip],&tabla[*pos]);
