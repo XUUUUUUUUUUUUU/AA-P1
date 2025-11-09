@@ -282,7 +282,7 @@ int median_avg(int *tabla, int ip, int iu, int *pos)
   assert(pos!=NULL);
 
   *pos=(ip+iu)/2;
-  return 1;
+  return OK;
 }
 
 #include <assert.h>
@@ -299,14 +299,29 @@ int median_stat(int *tabla, int ip, int iu, int *pos)
     assert(ip >= 0);
     assert(ip <= iu);
 
-    if ((a <= b && b <= c) || (c <= b && b <= a))
-        *pos = mid;
-    else if ((b <= a && a <= c) || (c <= a && a <= b))
-        *pos = ip;
-    else
-        *pos = iu;
+    if (a <= b) {
+        if (b <= c) {
+            *pos = mid;      
+        } else {          
+            if (a <= c) {
+                *pos = iu;  
+            } else {
+                *pos = ip;   
+            }
+        }
+    } else { 
+        if (a <= c) {
+            *pos = ip;      
+        } else {          
+            if (b <= c) {
+                *pos = iu;   
+            } else {
+                *pos = mid;   
+            }
+        }
+    }
 
-    return *pos;
+    return OK;
 }
 
 /**********************************************************/
@@ -333,7 +348,7 @@ int partition(int* tabla, int ip, int iu,int *pos)
   assert(ip<=iu);
   assert(pos!=NULL);
   
-  if(median(tabla,ip,iu,pos)==ERR)return ERR;
+  if(median_stat(tabla,ip,iu,pos)==ERR)return ERR;
   element=tabla[*pos];
 
   swap(&tabla[ip],&tabla[*pos]);
