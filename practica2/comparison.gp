@@ -34,6 +34,7 @@ g(x)=c*x*log(x)+d
 fit g(x) 'exercise5_quicksort.log' using 1:2 via c,d
 
 set ylabel "tiempo"
+set xrange [1:10000]
 plot 'exercise5_quicksort.log' using 1:2 with linespoints title 'QuickSort First', \
     'exercise5_quicksort_median_avg.log' using 1:2 with linespoints title 'QuickSort MedianAvg',\
     'exercise5_quicksort_median_stat.log' using 1:2 with linespoints title 'QuickSort MedianStat',\

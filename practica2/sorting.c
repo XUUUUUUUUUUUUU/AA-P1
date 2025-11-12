@@ -274,6 +274,21 @@ int median(int *tabla, int ip, int iu,int *pos)
   return 0;
 }
 
+/**********************************************************/
+/* Function: median_avg     Date: 28/10/2025              */
+/* Authors: Shaofan Xu.                                   */
+/*                                                        */
+/* Function that returns the position at mid table.       */
+/* Input:                                                 */
+/* int *tabla: Pointer to the table which have be divided */
+/* int ip: index of first element of table                */
+/* int iu: index of last element of table                 */
+/* int *pos: pointer which store the position of pivote   */
+/* element                                                */
+/* Output:                                                */
+/* ERR in case of error, or number of OBs that function   */
+/* has excuted in otherwise                               */
+/**********************************************************/
 int median_avg(int *tabla, int ip, int iu, int *pos)
 {
   assert(tabla!=NULL);
@@ -285,6 +300,22 @@ int median_avg(int *tabla, int ip, int iu, int *pos)
   return 0;
 }
 
+/**********************************************************/
+/* Function: median_stat    Date: 28/10/2025              */
+/* Authors: Shaofan Xu.                                   */
+/*                                                        */
+/* Function that returns the position at median of 3      */
+/* element of table                                       */
+/* Input:                                                 */
+/* int *tabla: Pointer to the table which have be divided */
+/* int ip: index of first element of table                */
+/* int iu: index of last element of table                 */
+/* int *pos: pointer which store the position of pivote   */
+/* element                                                */
+/* Output:                                                */
+/* ERR in case of error, or number of OBs that function   */
+/* has excuted in otherwise                               */
+/**********************************************************/
 int median_stat(int *tabla, int ip, int iu, int *pos)
 {
     int mid,obs;
@@ -344,7 +375,7 @@ int partition(int* tabla, int ip, int iu,int *pos)
   assert(ip<=iu);
   assert(pos!=NULL);
   
-  if((p_obs=median(tabla,ip,iu,pos))==ERR)return ERR;
+  if((p_obs=median_stat(tabla,ip,iu,pos))==ERR)return ERR;
   element=tabla[*pos];
   obs+=p_obs;
 

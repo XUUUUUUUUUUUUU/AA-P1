@@ -1,6 +1,6 @@
 /**************************************************/
 /* Programa: ejercise4_quicksort    Date:30/10/25 */
-/* Authors:                                       */
+/* Authors:  Shaofan Xu                           */
 /*                                                */
 /* Program that checks Quicksort                  */
 /*                                                */

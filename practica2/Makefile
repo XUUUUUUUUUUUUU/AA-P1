@@ -58,7 +58,7 @@ exercise5_mergesort_test:
 
 exercise5_quicksort_test:
 	@echo Running exercise5_quicksort
-	@./exercise5_quicksort -num_min 10 -num_max 100000 -incr 10 -numP 10 -outputFile exercise5_quicksort.log
+	@./exercise5_quicksort -num_min 10 -num_max 100000 -incr 10 -numP 10 -outputFile exercise5_quicksort_median_stat.log
 
 bw_quicksort_test:
 	@echo Running bw_quicksort
