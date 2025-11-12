@@ -41,7 +41,7 @@ plot 'exercise5_quicksort.log' using 1:2 with linespoints title 'QuickSort First
 
 #5.Gráfica con el tiempo medio de reloj para QuickSort, comentarios a la gráfica.
 set output 'quicksort_first_pivote_mean_time.png'
-
+set title "QuickSort(First) - Tiempo Medio"
 plot 'exercise5_quicksort.log' using 1:2 with linespoints title 'QuickSort First',\
     g(x) with lines lw 2 title sprintf("%.2e*n*log(n)+%.2e", c,d)
 
