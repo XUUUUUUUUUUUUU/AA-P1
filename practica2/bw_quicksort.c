@@ -10,7 +10,7 @@
 /* -num_max: highest number of table elements     */
 /* -incr: increment\n                             */
 /* -numP: number of permutations to average       */
-/* -quickSort_outputFile: Output file name of     */
+/* -quicksort_outputFile: Output file name of     */
 /* quicksort                                      */                    
 /* Output: -1 in case of error                    */
 /*  0 otherwise                                   */
@@ -65,21 +65,25 @@ int *worst_case_array(int N)
     return array;
 }
 void build_best_first_pivot(const int *sorted, int l, int r, int *out, int *pos){
+    int m;   
     if (l > r) return;
-    int m = l + (r - l) / 2;        
+    m = l + (r - l) / 2;     
     out[(*pos)++] = sorted[m];    
     build_best_first_pivot(sorted, l, m - 1, out, pos); 
     build_best_first_pivot(sorted, m + 1, r, out, pos); 
 }
 
 int *best_case_array(int N){
+    int i,pos;
+    int *src;
+    int *dst;
     if (N <= 0) return NULL;
-    int *src = malloc(sizeof(int)*N);
-    int *dst = malloc(sizeof(int)*N);
+    src = malloc(sizeof(int)*N);
+    dst = malloc(sizeof(int)*N);
     if (!src || !dst){ free(src); free(dst); return NULL; }
 
-    for (int i = 0; i < N; i++) src[i] = i + 1; 
-    int pos = 0;
+    for (i = 0; i < N; i++) src[i] = i + 1; 
+    pos = 0;
     build_best_first_pivot(src, 0, N - 1, dst, &pos);
 
     free(src);
@@ -168,13 +172,12 @@ int main(int argc, char **argv)
     {
         fprintf(stderr, "Error in input parameters:\n\n");
         fprintf(stderr, "%s -num_min <int> -num_max <int> -incr <int>\n", argv[0]);
-        fprintf(stderr, "\t\t -numP <int> -outputFile <string> \n");
+        fprintf(stderr, "\t\t -numP <int> -quicksort_outputFile <string> \n");
         fprintf(stderr, "Donde:\n");
         fprintf(stderr, "-num_min: lowest number of table elements\n");
         fprintf(stderr, "-num_max: highest number of table elements\n");
         fprintf(stderr, "-incr: increment\n");
         fprintf(stderr, "-numP: number of permutations to average\n");
-        fprintf(stderr, "-quicksort_outputFile: QuickSort Output file name\n");
         exit(-1);
     }
 
@@ -216,6 +219,7 @@ int main(int argc, char **argv)
     assert(num_min>0);
     assert(num_max>0);
     assert(num_min<=num_max);
+    assert(incr>0);
 
     /*Test the best and worst case of quickSort*/
     if (run_test(quicksort, quickSort_filename, num_min, num_max, incr, n_perms) == ERR)

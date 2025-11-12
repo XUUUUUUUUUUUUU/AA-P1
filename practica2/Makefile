@@ -5,7 +5,7 @@
 
 CC = gcc -ansi -pedantic 
 CFLAGS = -Wall -O3 
-EXE = exercise4_mergesort exercise4_quicksort exercise5_mergesort exercise5_quicksort bw_mergesort
+EXE = exercise4_mergesort exercise4_quicksort exercise5_mergesort exercise5_quicksort bw_mergesort bw_quicksort
 
 all : $(EXE)
 
@@ -59,6 +59,10 @@ exercise5_mergesort_test:
 exercise5_quicksort_test:
 	@echo Running exercise5_quicksort
 	@./exercise5_quicksort -num_min 10 -num_max 100000 -incr 10 -numP 10 -outputFile exercise5_quicksort.log
+
+bw_quicksort_test:
+	@echo Running bw_quicksort
+	@./bw_quicksort -num_min 10 -num_max 100000 -incr 10 -numP 10 -quicksort_outputFile bw_quicksort.log
 
 valgrind_e4_mergesort:
 	@echo Running exercise4_mergesort with valgrind
