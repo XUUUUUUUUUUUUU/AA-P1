@@ -271,7 +271,7 @@ int median(int *tabla, int ip, int iu,int *pos)
   assert(pos!=NULL);
 
   *pos=ip;
-  return OK;
+  return 0;
 }
 
 int median_avg(int *tabla, int ip, int iu, int *pos)
@@ -282,46 +282,42 @@ int median_avg(int *tabla, int ip, int iu, int *pos)
   assert(pos!=NULL);
 
   *pos=(ip+iu)/2;
-  return OK;
+  return 0;
 }
-
-#include <assert.h>
 
 int median_stat(int *tabla, int ip, int iu, int *pos)
 {
-    int mid = (ip + iu) / 2;
-    int a = tabla[ip];
-    int b = tabla[mid];
-    int c = tabla[iu];
-
+    int mid,obs;
     assert(tabla != NULL);
     assert(pos != NULL);
     assert(ip >= 0);
     assert(ip <= iu);
 
-    if (a <= b) {
-        if (b <= c) {
+    mid= (ip + iu) / 2;
+    obs=0;
+    if (tabla[ip] <= tabla[mid]) {
+        if (tabla[mid] <= tabla[iu]) {
             *pos = mid;      
         } else {          
-            if (a <= c) {
+            if (tabla[ip] <= tabla[iu]) {
                 *pos = iu;  
             } else {
                 *pos = ip;   
             }
         }
     } else { 
-        if (a <= c) {
+        if (tabla[ip] <= tabla[iu]) {
             *pos = ip;      
         } else {          
-            if (b <= c) {
+            if (tabla[mid] <= tabla[iu]) {
                 *pos = iu;   
             } else {
                 *pos = mid;   
             }
         }
     }
-
-    return OK;
+    obs+=3;
+    return obs;
 }
 
 /**********************************************************/
@@ -341,24 +337,25 @@ int median_stat(int *tabla, int ip, int iu, int *pos)
 /**********************************************************/
 int partition(int* tabla, int ip, int iu,int *pos)
 {
-  int element,i,obs=0;
+  int element,i,obs=0,p_obs;
   
   assert(tabla!=NULL);
   assert(ip>=0);
   assert(ip<=iu);
   assert(pos!=NULL);
   
-  if(median(tabla,ip,iu,pos)==ERR)return ERR;
+  if((p_obs=median(tabla,ip,iu,pos))==ERR)return ERR;
   element=tabla[*pos];
+  obs+=p_obs;
 
   swap(&tabla[ip],&tabla[*pos]);
   *pos=ip;
 
   for(i=ip+1;i<=iu;i++)
   {
+    obs++;
     if(tabla[i]<element)
     {
-      obs++;
       (*pos)++;
       swap(&tabla[i],&tabla[*pos]);
     }
