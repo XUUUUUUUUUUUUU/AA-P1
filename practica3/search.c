@@ -10,9 +10,12 @@
  */
 
 #include "search.h"
+#include "permutations.h"
 
 #include <stdlib.h>
 #include <math.h>
+#include <assert.h>
+
 
 /**
  *  Key generation functions
@@ -56,46 +59,298 @@ void potential_key_generator(int *keys, int n_keys, int max)
   return;
 }
 
+/**
+ * @brief Function: init_dictionary
+ *               This function inits menory for dictionary
+ * @author Alejandro Zheng
+ * @date 13/11/25
+ * 
+ * @param int size greater than 0
+ * @param order order of table
+ * 
+ * @return pointer to dicctionary (DICT)
+ *
+ */
+
 PDICT init_dictionary (int size, char order)
 {
-	/* your code */
+  PDICT re;
+
+  assert(size > 0);
+    
+	re = malloc(1*sizeof(DICT));
+  if (re == NULL)
+  {
+    return NULL;
+  }
+
+  re->size = size;
+  re->order = order;
+  re->n_data = 0;
+
+  re->table = malloc(size*sizeof(re->table[0]));
+  if (re->table == NULL)
+  {
+    free(re);
+    return NULL;
+  }
+
+  return re;
+  
 }
 
+/**
+ * @brief Function: free_dictionary
+ *               This function frees the allocated menory for dictionary
+ * @author Shaofan Xu
+ * @date 13/11/25
+ * 
+ * @param pdict pointer to dictionary: NOT NULL
+ * 
+ * @return NONE
+ *
+ */
 void free_dictionary(PDICT pdict)
 {
-	/* your code */
+  assert(pdict!=NULL);
+  assert(pdict->table!=NULL);
+  free(pdict->table);
+  free(pdict);
 }
+
+/**
+ * @brief Function: insert_dictionary
+ *               This function inserty key elements in table
+ * @author Alejandro Zheng
+ * @date 13/11/25
+ * 
+ * @param PDICT NON NULL pointer to dictionary
+ * @param key the valid element which have to inserte in table
+ * 
+ * @return pointer to dicctionary
+ *
+ */
 
 int insert_dictionary(PDICT pdict, int key)
 {
-	/* your code */
+  int ob;
+  int a, j;
+
+	assert(pdict != NULL);
+
+  if (pdict->n_data == pdict->size)
+  {
+    return ERR;
+  }
+
+  pdict->table[pdict->n_data] = key;
+  pdict->n_data++;
+
+  ob = 0;
+
+  if (pdict->order == SORTED)
+  {
+    a=pdict->table[pdict->n_data];
+    j = pdict->n_data - 1;
+    
+    while(j >= 0 && pdict->table[j] > a)
+    {
+      pdict->table[j+1] = pdict->table[j];
+      j--;
+      ob++;
+    }
+    
+    pdict->table[j+1] = a;
+
+  }
+
+  return ob;
+  
+
 }
 
+/**
+ * @brief Function: massive_insertion_dictionary
+ *               This function insert an array of keys in dictionary
+ * @author Shaofan Xu
+ * @date 13/11/25
+ * 
+ * @param pdict pointer to dictionary: NOT NULL
+ * @param keys pointer to arrays of keys: NOT NULL
+ * @param n_keys the numbers of keys : >=0
+ * 
+ * @return the number of basic operations does the function executed
+ */
 int massive_insertion_dictionary (PDICT pdict,int *keys, int n_keys)
 {
-	/* your code */
+  int obs,i;
+  assert(pdict!=NULL);
+  assert(pdict->table!=NULL);
+  assert(keys!=NULL);
+  assert(n_keys>=0);
+
+  obs=0;
+  for(i=0;i<n_keys;i++)
+  {
+    obs+=insert_dictionary(pdict,keys[i]);
+  }
+
+  return obs;
 }
 
+/**
+ * @brief Function: search_dictionary
+ *               This function usa search algoritms to find the position of key in dictionary table
+ * @author Alejandro Zheng
+ * @date 13/11/25
+ * 
+ * @param PDICT NON NULL pointer to dictionary
+ * @param key the elements we have to find
+ * @param ppos NON NULL pointer to indicate the position of key in dictionary table
+ * @param method NON NULL pointer to function searching algoritms
+ * 
+ * @return pointer to dicctionary
+ *
+ */
 int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method)
 {
-	/* your code */
+  int ob;
+
+	assert(pdict != NULL);
+  assert(method != NULL);
+  
+  ob = method(pdict->table,0,pdict->n_data, key, ppos);
+
+  return ob;
+
 }
 
 
 /* Search functions of the Dictionary ADT */
+
+/**
+ * @brief Function: bin_search
+ *               This function use binary_search to find an element in the table
+ * @author Shaofan Xu
+ * @date 13/11/25
+ * 
+ * @param table pointer to table which we want to search: NOT NULL
+ * @param F the position of first element in the table: >=0, <=total element in the table
+ * @param L the position of last element in the table: >=F
+ * @param ppos pointer to the position of key in the table which we have to store in it: NOT NULL
+ * 
+ * @return the number of basic operations does the function executed 
+ */
 int bin_search(int *table,int F,int L,int key, int *ppos)
-{
-	/* your code */
+{ 
+  int mid,left,right,obs;
+
+  assert(table!=NULL);
+  assert(F>=0);
+  assert(L>=F);
+  assert(ppos!=NULL);
+  
+  left=F;
+  right=L;
+  obs=0;
+
+  while(left<=right)
+  {
+    mid=(left+right)/2;
+    obs++;
+    if(table[mid]==key)
+    {
+      *ppos=mid;
+      return obs;
+    }else if(table[mid]<key)
+    {
+      left=mid;
+    }else{
+      right=mid;
+    }
+  }
+  *ppos=NOT_FOUND;
+  return obs;
 }
 
+/**
+ * @brief Function: lin_search
+ *               This function use lineal_search to find an element in the table
+ * @author Alejandro Zheng
+ * @date 13/11/25
+ * 
+ * @param table pointer to table which we want to search: NOT NULL
+ * @param F the position of first element in the table: >=0, <=total element in the table
+ * @param L the position of last element in the table: >=F
+ * @param ppos pointer to the position of key in the table which we have to store in it: NOT NULL
+ * 
+ * @return the number of basic operations does the function executed 
+ */
 int lin_search(int *table,int F,int L,int key, int *ppos)
 {
-	/* your code */
+  int ob;
+  int i;
+	assert(table != NULL);
+  assert(F<=L);
+  assert(ppos != NULL);
+
+  ob = 0;
+
+  for (i = F; i <= L; i++)
+  {
+    ob++;
+    if (table[i] == key)
+    {
+      *ppos = i;
+      return ob;
+    }
+
+  }
+
+  *ppos = NOT_FOUND;
+
+  return ob;
+
 }
 
+/**
+ * @brief Function: lin_auto_search
+ *               This function use linel_auto_search to find an element in the table
+ * @author Shaofan Xu
+ * @date 13/11/25
+ * 
+ * @param table pointer to table which we want to search: NOT NULL
+ * @param F the position of first element in the table: >=0, <=total element in the table
+ * @param L the position of last element in the table: >=F
+ * @param ppos pointer to the position of key in the table which we have to store in it: NOT NULL
+ * 
+ * @return the number of basic operations does the function executed
+ */
 int lin_auto_search(int *table,int F,int L,int key, int *ppos)
 {
-	/* your code */
+  int i,obs;
+  assert(table!=NULL);
+  assert(F>=0);
+  assert(L>=F);
+  assert(ppos!=NULL);
+
+  obs=0;
+
+  for(i=F;i<=L;i++)
+  {
+    obs++;
+    if(table[i]==key)
+    {
+      if(i!=1)
+      {
+        swap(table[i],table[i-1]);
+        *ppos=i;
+      }
+      return obs;
+    }
+  }
+  *ppos=NOT_FOUND;
+  return obs;
 }
 
 
