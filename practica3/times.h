@@ -39,12 +39,12 @@ short generate_sorting_times(pfunc_sort method, char* file, int num_min, int num
 short save_time_table(char* file, PTIME_AA time, int n_times);
 
 short generate_search_times(pfunc_search method, pfunc_key_generator generator, 
-                                int order, char* file, 
+                                char order, char* file, 
                                 int num_min, int num_max, 
                                 int incr, int n_times);
 
 short average_search_time(pfunc_search metodo, pfunc_key_generator generator,
-                              int order,
+                              char order,
                               int N, 
                               int n_times,
                               PTIME_AA ptime);

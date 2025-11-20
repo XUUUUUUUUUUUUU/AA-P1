@@ -12,6 +12,7 @@
 #include "times.h"
 #include "sorting.h"
 #include "permutations.h"
+#include "search.h"
 #include <assert.h>
 #include <time.h>
 #include <stdlib.h>
@@ -199,16 +200,214 @@ short save_time_table(char* file, PTIME_AA ptime, int n_times)
 
   return OK;
 }
+/**
+ * @brief average_sorting_time Date:02/10/2025
+ * Functions that calculatate the time, basic     
+ * basic operation(max,min,mean) used by sorting  
+ * algorithm  
+ * @author: Shaofan Xu                             
+ * Input:                                        
+ * @param pfunc_sort metodo: sorting function         
+ * @param int n_perms: number of permutations.           
+ * @param int N: length of permutations                 
+ * @param PTIME_AA ptime: structure which store all     
+ * the time, basic operation used by metodo.    
+ * Output:                                        
+ * @return short: return 1(or OK) when everything is good 
+ * and 0(or ERR) when there is errors.      
+ */
+short average_search_time(pfunc_search metodo, pfunc_key_generator generator,char order,int N, int n_times,PTIME_AA ptime)
+{
+  int i;
+  PDICT pdict;
+  int *permutation;
+  int *keys;
+  clock_t start,end;
+  double mean_time;
+  long mean_ob=0;
+  int max_ob,min_ob,ob;
+  int ppos;
+
+  /*Error comprobation*/
+  assert(metodo!=NULL);
+  assert(N>0);
+  assert(n_times>0);
+  assert(ptime!=NULL);
+  
+  /* Create dictionary and verify its not NULL*/
+  pdict=init_dictionary(N,order);
+  if(pdict==NULL) return ERR;
+  
+  /* Create a permutations */
+  permutation=generate_perm(N);
+  if(permutation==NULL)
+  {
+    free_dictionary(pdict);
+    return ERR;
+  }
+  if(massive_insertion_dictionary(pdict,permutation,N)==ERR)
+  {
+    free_dictionary(pdict);
+    free(permutation);
+    return ERR;
+  }
+
+  /*Create a table of size n_times*N*/
+  keys=malloc(sizeof(keys[0])*n_times*N);
+  if(keys==NULL)
+  {
+    free_dictionary(pdict);
+    free(permutation);
+    return ERR;
+  }
+  generator(keys,n_times*N,N);
+
+  /* Count the time used to search the keys*/
+  start=clock();
+
+  for(i=0;i<n_times*N;i++)
+  {
+    ob=search_dictionary(pdict,keys[i],&ppos,metodo);
+    if(ob==ERR)
+    {
+      free_dictionary(pdict);
+      free(permutation);
+      free(keys);
+      return ERR;
+    }
+    if(i==0)
+    {
+      max_ob=min_ob=ob;
+    }
+    mean_ob+=ob;
+    max_ob=max_ob<ob?ob:max_ob;
+    min_ob=ob<min_ob?ob:min_ob;
+  }
+  end=clock();
+
+  mean_time=(double)(end-start)/(n_times);
+
+  
+  /* Asignation of values to ptime */
+  ptime->n_elems=n_times;
+  ptime->N=N;
+  ptime->time=mean_time/CLOCKS_PER_SEC;
+  ptime->average_ob=(double)(mean_ob/n_times);
+  ptime->min_ob=min_ob;
+  ptime->max_ob=max_ob;
+
+  /* Free all memorys */
+
+  free(permutation);
+  free_dictionary(pdict);
+  free(keys);
+
+  return OK;
+}
 
 
-short generate_search_times(pfunc_search method, pfunc_key_generator generator, 
-                                int order, char* file, 
-                                int num_min, int num_max, 
-                                int incr, int n_times);
+/********************************************************************/
+/* Function: save_time_table_search Date: 20/11/2025                */
+/* Authors: Alejandro Zheng                                         */
+/*                                                                  */
+/* Function to write the measurements in a file                     */
+/*                                                                  */
+/* Input:                                                           */
+/* char* file: the file to write measurements                       */
+/* PTIME_AA ptime: structure which store all                        */
+/* the time, basic operation used by metodo.                        */
+/* int N: number of measurements took                               */
+/* Output:                                                          */  
+/* short: index to indicate if the program have runned successfully */
+/********************************************************************/
+short save_time_table_search(char* file, PTIME_AA time, int N)
+{
+  FILE *pf = NULL;
+  int i;
 
-short average_search_time(pfunc_search metodo, pfunc_key_generator generator,
-                              int order,
-                              int N, 
-                              int n_times,
-                              PTIME_AA ptime);
+  assert(file != NULL);
+  assert(time != NULL);
+  assert(N > 0);
+
+  /*open the file*/
+  pf = fopen(file,"w");
+  if (pf == NULL)
+  {
+    return ERR;
+  }
+
+  /*print result of measurement into file*/
+  fprintf(pf, "N  Time  average_ob  max_ob  min_ob \n");
+
+  for (i = 0; i < N; i++)
+  {
+    fprintf(pf, "%d %f %f %d %d \n", time[i].N, time[i].time, time[i].average_ob, time[i].max_ob, time[i].min_ob);
+  }
+
+  /*close file*/
+  fclose(pf);
+
+  return OK;
+}
+
+/*********************************************************************/
+/* Function: generate_search_times Date:20/11/2025                   */
+/* Author: Alejandro Zheng                                           */
+/*                                                                   */
+/* Function that write a average of searching time,                  */
+/* min,max and average of OB for one searching algoritm              */
+/* in each scale of number permutations                              */
+/*                                                                   */
+/* Input:                                                            */
+/* pfunc_search method: search function                              */
+/* pfunc_key_generator generator: function to generate key           */
+/* char order: order of generator                                    */
+/* char* file: file where write the measurements                     */
+/* int num_min: minimum scale of generator to measure                */
+/* int num_max: maximum scale of generator to measure                */
+/* int incr: index to grow scale of generator in each interaction    */
+/* int n_times: number of search in each interaction                 */
+/* Output:                                                           */
+/* short: index to indicate if the program have runned successfully  */
+/*********************************************************************/                              
+short generate_search_times(pfunc_search method, pfunc_key_generator generator, char order, char* file, int num_min, int num_max, int incr, int n_times)
+{
+  PTIME_AA array_time = NULL;
+  int i;
+  int array_size;
+  int N;
+  short result;
+
+  assert(method != NULL);
+  assert(generator != NULL);
+  assert(file != NULL);
+  assert(num_min < num_max);
+
+  /*Allocate memory for table of measurement*/
+  array_size = (num_max - num_min) / incr + 1;
+  array_time = malloc(sizeof(TIME_AA)*array_size);
+  if (array_time == NULL)
+  {
+    return ERR;
+  }
+  
+  /*process of measurement*/
+  for (i = 0, N = num_min; N <= num_max; i++, N+=incr)
+  {
+    if (average_search_time(method, generator, order,N, n_times, &(array_time[i])) == ERR)
+    {
+      free(array_time);
+      return ERR;
+    }
+  }
+
+  /*save the result into a file*/
+  result = save_time_table_search(file,array_time, array_size);
+
+  /*free memory of table*/
+  free(array_time);
+
+  return result;
+}
+
 
