@@ -39,7 +39,7 @@
 /***************************************************/
 short average_sorting_time(pfunc_sort metodo, int n_perms,int N, PTIME_AA ptime)
 {
-  int i;
+  int i,k;
   int** permutations=NULL;
   clock_t start,end;
   double mean_time;
@@ -64,9 +64,9 @@ short average_sorting_time(pfunc_sort metodo, int n_perms,int N, PTIME_AA ptime)
     ob=metodo(permutations[i],0,N-1);
     if(ob==ERR)
     {
-        for(i=0;i<n_perms;i++)
+        for(k=0;k<n_perms;k++)
         {
-          free(permutations[i]);
+          free(permutations[k]);
           }
           free(permutations);
           return ERR;
@@ -81,14 +81,14 @@ short average_sorting_time(pfunc_sort metodo, int n_perms,int N, PTIME_AA ptime)
   }
   end=clock();
 
-  mean_time=(double)(end-start)/n_perms;
+  mean_time=((double)end-start)/n_perms;
 
   
   /* Asignation of values to ptime */
   ptime->n_elems=n_perms;
   ptime->N=N;
   ptime->time=mean_time/CLOCKS_PER_SEC;
-  ptime->average_ob=(double)(mean_ob/n_perms);
+  ptime->average_ob=((double)mean_ob)/n_perms;
   ptime->min_ob=min_ob;
   ptime->max_ob=max_ob;
 
@@ -285,14 +285,14 @@ short average_search_time(pfunc_search metodo, pfunc_key_generator generator,cha
   }
   end=clock();
 
-  mean_time=(double)(end-start)/(n_times);
+  mean_time=((double)end-start)/(n_times*N);
 
   
   /* Asignation of values to ptime */
-  ptime->n_elems=n_times;
+  ptime->n_elems=n_times*N;
   ptime->N=N;
   ptime->time=mean_time/CLOCKS_PER_SEC;
-  ptime->average_ob=(double)(mean_ob/n_times);
+  ptime->average_ob=((double)mean_ob)/(n_times*N);
   ptime->min_ob=min_ob;
   ptime->max_ob=max_ob;
 
@@ -341,7 +341,7 @@ short save_time_table_search(char* file, PTIME_AA time, int N)
 
   for (i = 0; i < N; i++)
   {
-    fprintf(pf, "%d %f %f %d %d \n", time[i].N, time[i].time, time[i].average_ob, time[i].max_ob, time[i].min_ob);
+    fprintf(pf, "%d %.10f %.10f %d %d \n", time[i].N, time[i].time, time[i].average_ob, time[i].max_ob, time[i].min_ob);
   }
 
   /*close file*/

@@ -27,7 +27,7 @@
 
 int main(int argc, char** argv)
 {
-  int i, num_min,num_max,incr,n_times;
+  int i, num_min=0,num_max=0,incr=0,n_times=0;
   char name[256];
   short ret;
  
@@ -69,7 +69,7 @@ int main(int argc, char** argv)
   }
 
   /* calculamos los tiempos */
-  ret = generate_search_times(lin_search, uniform_key_generator, NOT_SORTED, 
+  ret = generate_search_times(bin_search, potential_key_generator, SORTED, 
                                 name, num_min, num_max, incr, n_times);
   if (ret == ERR) { 
     printf("Error in function generate_search_times\n");

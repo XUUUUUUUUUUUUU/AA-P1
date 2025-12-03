@@ -54,4 +54,4 @@ exercise1_test:
 
 exercise2_test:
 	@echo Running exercise2
-	@./exercise2 -num_min 1000 -num_max 10000 -incr 1 -n_times 1 -outputFile exercise2.log
+	@./exercise2 -num_min 1000 -num_max 10000 -incr 1 -n_times 10000 -outputFile binSearch_SortedPkg_ntimes10000.log

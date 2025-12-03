@@ -134,7 +134,7 @@ void free_dictionary(PDICT pdict)
 int insert_dictionary(PDICT pdict, int key)
 {
   int ob;
-  int a, j;
+  int j;
 
 	assert(pdict != NULL);
 
@@ -150,17 +150,16 @@ int insert_dictionary(PDICT pdict, int key)
 
   if (pdict->order == SORTED)
   {
-    a=pdict->table[pdict->n_data];
-    j = pdict->n_data - 1;
+    j = pdict->n_data - 2;
     
-    while(j >= 0 && pdict->table[j] > a)
+    while(j >= 0 && pdict->table[j] > key)
     {
       pdict->table[j+1] = pdict->table[j];
       j--;
       ob++;
     }
     
-    pdict->table[j+1] = a;
+    pdict->table[j+1] = key;
 
   }
 
@@ -218,8 +217,12 @@ int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method)
 
 	assert(pdict != NULL);
   assert(method != NULL);
-  
-  ob = method(pdict->table,0,pdict->n_data, key, ppos);
+  if (pdict->n_data == 0)
+  {
+    *ppos = NOT_FOUND;
+    return 0;
+  }
+  ob = method(pdict->table,0,pdict->n_data-1, key, ppos);
 
   return ob;
 
@@ -264,9 +267,9 @@ int bin_search(int *table,int F,int L,int key, int *ppos)
       return obs;
     }else if(table[mid]<key)
     {
-      left=mid;
+      left=mid+1;
     }else{
-      right=mid;
+      right=mid-1;
     }
   }
   *ppos=NOT_FOUND;
@@ -296,7 +299,7 @@ int lin_search(int *table,int F,int L,int key, int *ppos)
 
   ob = 0;
 
-  for (i = F; i <= L; i++)
+  for (i = F; i <=L; i++)
   {
     ob++;
     if (table[i] == key)
@@ -341,9 +344,11 @@ int lin_auto_search(int *table,int F,int L,int key, int *ppos)
     obs++;
     if(table[i]==key)
     {
-      if(i!=1)
+      if(i>F)
       {
-        swap(table[i],table[i-1]);
+        swap(&table[i],&table[i-1]);
+        *ppos=i-1;
+      }else{
         *ppos=i;
       }
       return obs;
