@@ -326,10 +326,13 @@ int median_stat(int *tabla, int ip, int iu, int *pos)
 
     mid= (ip + iu) / 2;
     obs=0;
+    obs++;
     if (tabla[ip] <= tabla[mid]) {
+        obs++;
         if (tabla[mid] <= tabla[iu]) {
             *pos = mid;      
         } else {          
+            obs++;
             if (tabla[ip] <= tabla[iu]) {
                 *pos = iu;  
             } else {
@@ -337,9 +340,11 @@ int median_stat(int *tabla, int ip, int iu, int *pos)
             }
         }
     } else { 
+        obs++;
         if (tabla[ip] <= tabla[iu]) {
             *pos = ip;      
-        } else {          
+        } else {  
+            obs++;
             if (tabla[mid] <= tabla[iu]) {
                 *pos = iu;   
             } else {
@@ -347,7 +352,7 @@ int median_stat(int *tabla, int ip, int iu, int *pos)
             }
         }
     }
-    obs+=3;
+
     return obs;
 }
 
