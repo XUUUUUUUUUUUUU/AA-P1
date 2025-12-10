@@ -112,24 +112,3 @@ plot 'linSearch_NotSorted_ntimes1.log' using 1:4 with linespoints title 'linSear
     'linSearch_NotSorted_ntimes1.log' using 1:5 with linespoints title 'linSearch MinObs',\
     min_ob(x) with lines lw 2 title sprintf("%.2e", a),\
     max_ob(x) with lines lw 2 title sprintf("%.2e*x", c)
-
-#7. todos los n_times juntos
-set output 'todos juntos.png'
-set ylabel 'Tiempo'
-plot 'binSearch_SortedPkg_ntimes10000.log' using 1:2 with linespoints title 'binSearch ntimes10000',\
-    'linAutoSearch_NotSortedPkg_ntimes10000.log' using 1:2 with linespoints title 'linAutoSearch ntimes10000',\
-    'binSearch_SortedPkg_ntimes1.log' using 1:2 with linespoints title 'binSearch ntimes1',\
-    'linAutoSearch_NotSortedPkg_ntimes1.log' using 1:2 with linespoints title 'linAutoSearch ntimes1', \
-    'binSearch_SortedPkg_ntimes100.log' using 1:2 with linespoints title 'binSearch ntimes100',\
-    'linAutoSearch_NotSortedPkg_ntimes100.log' using 1:2 with linespoints title 'linAutoSearch ntimes100'
-
-
-#7. todos los n_times juntos
-set output 'todos juntos obs.png'
-set ylabel 'Obs'
-plot 'binSearch_SortedPkg_ntimes10000.log' using 1:3 with linespoints title 'binSearch ntimes10000',\
-    'linAutoSearch_NotSortedPkg_ntimes10000.log' using 1:3 with linespoints title 'linAutoSearch ntimes10000',\
-    'binSearch_SortedPkg_ntimes1.log' using 1:3 with linespoints title 'binSearch ntimes1',\
-    'linAutoSearch_NotSortedPkg_ntimes1.log' using 1:3 with linespoints title 'linAutoSearch ntimes1', \
-    'binSearch_SortedPkg_ntimes100.log' using 1:3 with linespoints title 'binSearch ntimes100',\
-    'linAutoSearch_NotSortedPkg_ntimes100.log' using 1:3 with linespoints title 'linAutoSearch ntimes100'
