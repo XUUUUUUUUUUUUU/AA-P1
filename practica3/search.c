@@ -3,9 +3,9 @@
  * Description: Implementation of functions for search
  *
  * File: search.c
- * Author: Carlos Aguirre and Javier Sanz-Cruzado
+ * Author: Shaofan Xu, Alejandro Zheng
  * Version: 1.0
- * Date: 14-11-2016
+ * Date: 14-11-2025
  *
  */
 
@@ -164,8 +164,6 @@ int insert_dictionary(PDICT pdict, int key)
   }
 
   return ob;
-  
-
 }
 
 /**
@@ -225,7 +223,6 @@ int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method)
   ob = method(pdict->table,0,pdict->n_data-1, key, ppos);
 
   return ob;
-
 }
 
 
@@ -313,7 +310,6 @@ int lin_search(int *table,int F,int L,int key, int *ppos)
   *ppos = NOT_FOUND;
 
   return ob;
-
 }
 
 /**

@@ -30,6 +30,8 @@
 void swap(int *a,int *b)
 {
   int number;
+  assert(a!=NULL);
+  assert(b!=NULL);
   number=*a;
   *a=*b;
   *b=number;
