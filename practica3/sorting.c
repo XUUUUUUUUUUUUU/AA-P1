@@ -45,11 +45,11 @@ int InsertSort(int* array, int ip, int iu)
     num = array[i];
     j = i - 1;
 
-
+    /*si el elemento i-1 es mayor que elemento i, entonces se intercambia*/
     while (j >= ip && array[j] > num)
     {
       ob++; 
-      array[j+1] = array[j];
+      array[j+1] = array[j]; /*Operacion Basica*/
       j--;
     }
 
@@ -88,11 +88,14 @@ int BubbleSort(int* array, int ip, int iu)
 
   while(flag==1&&i>=ip+1)
   {
+    /*si hay intercambio de elemento, el flag pone 1*/
     flag=0;
+    /*empezando a compara el primer elemento con segundo elemento, la burbuja es el primer elemento*/
     for(j=ip;j<i;j++)
     { 
       ob++;
-      if(array[j]>array[j+1]){
+      if(array[j]>array[j+1]) /*Operacion Basica*/
+      {
         num=array[j];
         array[j]=array[j+1];
         array[j+1]=num;
@@ -146,7 +149,7 @@ int mergesort(int* tabla, int ip, int iu)
     return ERR;
   }
 
-  /*combine the tabl*/
+  /*combine the table*/
   ob3 = merge(tabla, ip, iu, imedio);
   if(ob3 == ERR)
   {
@@ -202,7 +205,7 @@ int merge(int* tabla, int ip, int iu, int imedio)
   /*process of combining*/
   while( i <= imedio && j <= iu)
   {
-    if (tabla[i] < tabla[j])
+    if (tabla[i] < tabla[j]) /*Operacion Basica*/
     {
       aux_table[k] = tabla[i];
       ob++;
@@ -270,6 +273,7 @@ int median(int *tabla, int ip, int iu,int *pos)
   assert(ip<=iu);
   assert(pos!=NULL);
 
+  /*Pivote de QuickSort, primer elemento de la lista*/
   *pos=ip;
   return 0;
 }
@@ -296,6 +300,7 @@ int median_avg(int *tabla, int ip, int iu, int *pos)
   assert(ip<=iu);
   assert(pos!=NULL);
 
+  /*Pivote de QuickSort, la position mitad de elemento*/
   *pos=(ip+iu)/2;
   return 0;
 }
@@ -324,30 +329,37 @@ int median_stat(int *tabla, int ip, int iu, int *pos)
     assert(ip >= 0);
     assert(ip <= iu);
 
+    /*Hacer la compracion entre ip, iu y mid, para determinar cual es el elemento medio para ser pivote*/
     mid= (ip + iu) / 2;
     obs=0;
     obs++;
     if (tabla[ip] <= tabla[mid]) {
         obs++;
         if (tabla[mid] <= tabla[iu]) {
+            /*Este caso, ip < mid, mid < iu*/
             *pos = mid;      
         } else {          
             obs++;
+            /*Este caso ip < mid, mid > iu, ip < iu*/
             if (tabla[ip] <= tabla[iu]) {
                 *pos = iu;  
             } else {
+                /*Este caso ip < mid, mid > iu, ip > iu*/
                 *pos = ip;   
             }
         }
     } else { 
         obs++;
         if (tabla[ip] <= tabla[iu]) {
+            /*ip > mid, ip < iu*/
             *pos = ip;      
         } else {  
             obs++;
             if (tabla[mid] <= tabla[iu]) {
+              /*ip > mid, ip > iu, mid < iu*/
                 *pos = iu;   
             } else {
+                /*ip > mid, ip > iu, mid > iu*/
                 *pos = mid;   
             }
         }
@@ -380,13 +392,16 @@ int partition(int* tabla, int ip, int iu,int *pos)
   assert(ip<=iu);
   assert(pos!=NULL);
   
+  /*escoger un pivote*/
   if((p_obs=median_stat(tabla,ip,iu,pos))==ERR)return ERR;
   element=tabla[*pos];
   obs+=p_obs;
 
+  /*coloca el pivote en primer position de la tabla*/
   swap(&tabla[ip],&tabla[*pos]);
   *pos=ip;
 
+  /*proceso de separa la tabla*/
   for(i=ip+1;i<=iu;i++)
   {
     obs++;
@@ -396,6 +411,7 @@ int partition(int* tabla, int ip, int iu,int *pos)
       swap(&tabla[i],&tabla[*pos]);
     }
   }
+  
   swap(&tabla[ip],&tabla[*pos]);
   return obs;
 }

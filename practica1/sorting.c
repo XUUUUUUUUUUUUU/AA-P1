@@ -42,7 +42,7 @@ int InsertSort(int* array, int ip, int iu)
     num = array[i];
     j = i - 1;
 
-
+    /*si el elemento i-1 es mayor que elemento i, entonces se intercambia*/
     while (j >= ip && array[j] > num)
     {
       ob++; 
@@ -52,7 +52,7 @@ int InsertSort(int* array, int ip, int iu)
 
     array[j+1] = num;
   }
-
+ 
   return ob;
 }
 
@@ -85,11 +85,14 @@ int BubbleSort(int* array, int ip, int iu)
 
   while(flag==1&&i>=ip+1)
   {
+    /*si hay intercambio de elemento, el flag pone 1*/
     flag=0;
+    /*empezando a compara el primer elemento con segundo elemento, la burbuja es el primer elemento*/
     for(j=ip;j<i;j++)
     { 
       ob++;
-      if(array[j]>array[j+1]){
+      if(array[j]>array[j+1])
+      {
         num=array[j];
         array[j]=array[j+1];
         array[j+1]=num;

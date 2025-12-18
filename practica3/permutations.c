@@ -78,11 +78,14 @@ int* generate_perm(int N)
   /* Verified that N its not zero or negative number*/
   assert(N>0);
 
+  /*Crear un array de tamaño N*/
   perm=malloc(N*sizeof(perm[0]));
   if(perm==NULL) return NULL;
 
+  /*crear el elemento de 1 hasta N*/
   for(i=0;i<N;i++) perm[i]= i+1;
 
+  /*desordenar el elemento*/
   for(i=0;i<N;i++)
   {
     /* Switch with the element at random position */

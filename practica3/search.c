@@ -61,7 +61,7 @@ void potential_key_generator(int *keys, int n_keys, int max)
 
 /**
  * @brief Function: init_dictionary
- *               This function inits menory for dictionary
+ *               This function inits memory for dictionary
  * @author Alejandro Zheng
  * @date 13/11/25
  * 
@@ -138,6 +138,7 @@ int insert_dictionary(PDICT pdict, int key)
 
 	assert(pdict != NULL);
 
+  /*cuando los key no tiene que esta ordenado*/
   if (pdict->n_data == pdict->size)
   {
     return ERR;
@@ -148,6 +149,7 @@ int insert_dictionary(PDICT pdict, int key)
 
   ob = 0;
 
+  /*cuando los key tiene que ser ordenado*/
   if (pdict->order == SORTED)
   {
     j = pdict->n_data - 2;
@@ -186,6 +188,7 @@ int massive_insertion_dictionary (PDICT pdict,int *keys, int n_keys)
   assert(keys!=NULL);
   assert(n_keys>=0);
 
+  /*insertacion masivo de los keys*/
   obs=0;
   for(i=0;i<n_keys;i++)
   {
@@ -197,7 +200,7 @@ int massive_insertion_dictionary (PDICT pdict,int *keys, int n_keys)
 
 /**
  * @brief Function: search_dictionary
- *               This function usa search algoritms to find the position of key in dictionary table
+ *               This function use search algoritms to find the position of key in dictionary table
  * @author Alejandro Zheng
  * @date 13/11/25
  * 
@@ -215,6 +218,8 @@ int search_dictionary(PDICT pdict, int key, int *ppos, pfunc_search method)
 
 	assert(pdict != NULL);
   assert(method != NULL);
+
+  /*Usa un algoritmo de búsqueda para busca un key en un diccionario*/
   if (pdict->n_data == 0)
   {
     *ppos = NOT_FOUND;
@@ -254,11 +259,12 @@ int bin_search(int *table,int F,int L,int key, int *ppos)
   right=L;
   obs=0;
 
+  /*Busqueda binaria*/
   while(left<=right)
   {
     mid=(left+right)/2;
     obs++;
-    if(table[mid]==key)
+    if(table[mid]==key) /*Operación Basica*/
     {
       *ppos=mid;
       return obs;
@@ -296,10 +302,11 @@ int lin_search(int *table,int F,int L,int key, int *ppos)
 
   ob = 0;
 
+  /*Busqueda lineal*/
   for (i = F; i <=L; i++)
   {
     ob++;
-    if (table[i] == key)
+    if (table[i] == key) /*Operación basica*/
     {
       *ppos = i;
       return ob;
@@ -335,13 +342,16 @@ int lin_auto_search(int *table,int F,int L,int key, int *ppos)
 
   obs=0;
 
+  /*Es una busqueda lineal pero con la modificacion de que el elemento buscado se intercambia la posicion con su anterio*/
+  /*Entonces, si un key buscamos más veces, su posicion va ser más delante*/
   for(i=F;i<=L;i++)
   {
     obs++;
-    if(table[i]==key)
+    if(table[i]==key) /*Operación basica*/
     {
       if(i>F)
       {
+        /*intercambia la posicion de key encontrado con su anterio*/
         swap(&table[i],&table[i-1]);
         *ppos=i-1;
       }else{
